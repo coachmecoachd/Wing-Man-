@@ -57,6 +57,17 @@ const App: React.FC = () => {
     setCurrentUser(null);
   };
 
+  const handleDeleteAccount = () => {
+    if (currentUser) {
+        // Manually remove the items from localStorage since the hooks sync with state, 
+        // but we want to ensure the data is gone from the browser storage.
+        localStorage.removeItem(`${currentUser}-wingman-profiles`);
+        localStorage.removeItem(`${currentUser}-wingman-dates`);
+        localStorage.removeItem(`${currentUser}-wingman-account`);
+        handleLogout();
+    }
+  };
+
   if (!currentUser) {
     return <Login onLogin={handleLogin} />;
   }
@@ -79,7 +90,7 @@ const App: React.FC = () => {
       case 'interpreter':
         return <Interpreter />;
       case 'settings':
-        return <UserSettings userAccount={userAccount} onSave={(updated) => { setUserAccount(updated); setView('dashboard'); }} />;
+        return <UserSettings userAccount={userAccount} onSave={(updated) => { setUserAccount(updated); setView('dashboard'); }} onDeleteAccount={handleDeleteAccount} />;
       default:
         return <Dashboard setView={setView} />;
     }

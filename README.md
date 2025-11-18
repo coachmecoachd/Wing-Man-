@@ -31,23 +31,52 @@
 
 ## 🚀 Getting Started
 
-To run Wing Man locally, follow these simple steps:
+### Prerequisites
+Before you begin, ensure you have **Git** installed on your computer to manage the project files.
+*   [**Download Git Here**](https://git-scm.com/downloads) - Choose the version for your operating system (Windows/Mac).
 
+### Installation
+
+#### Option A: Clone from GitHub (If starting empty)
+If you have created the repository on GitHub and want to download it:
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/coachmecochd/Wing-Man-.git
     ```
-
 2.  **Navigate to the directory:**
     ```bash
     cd Wing-Man-
     ```
 
-3.  **Get a Google Gemini API Key:**
+#### Option B: Setup with Existing Files (If you have files locally)
+If you already have the files on your computer and want to start tracking them:
+1.  **Navigate to your folder** in the terminal:
+    ```bash
+    cd path/to/your/folder
+    ```
+    *(e.g., `cd E:\wing-man`)*
+2.  **Initialize Git:**
+    ```bash
+    git init
+    ```
+3.  **Configure Identity (First time only):**
+    If you see an "Author identity unknown" error, run these commands (replace with your info):
+    ```bash
+    git config --global user.email "you@example.com"
+    git config --global user.name "Your Name"
+    ```
+4.  **Save your files:**
+    ```bash
+    git add .
+    git commit -m "Initial setup"
+    ```
+
+### Running the App
+1.  **Get a Google Gemini API Key:**
     *   Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to create your free API key. The execution environment must have this key available as the `API_KEY` environment variable.
 
-4.  **Open the application:**
-    *   Simply open the `index.html` file in a web browser that can serve the files (e.g., using a simple local server).
+2.  **Open the application:**
+    *   Simply open the `index.html` file in a web browser.
 
 ## 🌐 Deployment & Updates
 

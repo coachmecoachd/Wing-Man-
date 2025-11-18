@@ -24,21 +24,25 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <p className="text-lg text-gray-400 mb-8">Your Personal Dating AI Assistant</p>
         
         <div className="bg-secondary p-8 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold text-white mb-6">Login to Continue</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">Welcome Back</h2>
+          <p className="text-gray-400 text-sm mb-6">Enter your username to access your profile.</p>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="username" className="sr-only">Email or Username</label>
+              <label htmlFor="username" className="sr-only">Username</label>
               <input
                 id="username"
                 name="username"
                 type="text"
-                autoComplete="username"
+                autoComplete="off"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full bg-tertiary border border-tertiary rounded-md py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-accent"
-                placeholder="Enter your email or username"
+                placeholder="Enter a username"
               />
+              <p className="text-xs text-gray-500 mt-3">
+                No password required. All data is stored securely on this device.
+              </p>
             </div>
             <button
               type="submit"
@@ -50,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         </div>
          <footer className="text-center p-4 mt-8">
           <p className="text-sm text-gray-500">
-             All data is stored locally on your device.
+             Wing Man &copy; {new Date().getFullYear()}
           </p>
       </footer>
       </div>

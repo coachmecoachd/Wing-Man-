@@ -5,9 +5,10 @@ import { UserAccount } from '../types.ts';
 interface UserSettingsProps {
     userAccount: UserAccount;
     onSave: (account: UserAccount) => void;
+    onDeleteAccount: () => void;
 }
 
-const UserSettings: React.FC<UserSettingsProps> = ({ userAccount, onSave }) => {
+const UserSettings: React.FC<UserSettingsProps> = ({ userAccount, onSave, onDeleteAccount }) => {
     const [formData, setFormData] = useState<UserAccount>(userAccount);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -45,6 +46,12 @@ const UserSettings: React.FC<UserSettingsProps> = ({ userAccount, onSave }) => {
 
     const handleUploadClick = () => {
         fileInputRef.current?.click();
+    };
+
+    const handleDeleteClick = () => {
+        if (window.confirm("Are you sure? This will permanently delete all profiles, dates, and settings stored on this device. This action cannot be undone.")) {
+            onDeleteAccount();
+        }
     };
 
     return (
@@ -137,6 +144,23 @@ const UserSettings: React.FC<UserSettingsProps> = ({ userAccount, onSave }) => {
                         </button>
                     </div>
                 </form>
+
+                <div className="mt-12 pt-8 border-t border-red-900/30">
+                    <h3 className="text-xl font-bold text-red-500 mb-4">Danger Zone</h3>
+                    <div className="flex items-center justify-between bg-primary/50 p-4 rounded-lg border border-red-900/30">
+                        <div>
+                            <h4 className="text-white font-medium">Delete All Data</h4>
+                            <p className="text-gray-400 text-sm">Permanently delete all profiles, dates, and settings.</p>
+                        </div>
+                         <button
+                            type="button"
+                            onClick={handleDeleteClick}
+                            className="bg-transparent border border-red-500 text-red-500 px-4 py-2 rounded-md hover:bg-red-500 hover:text-white transition-colors"
+                        >
+                            Delete Data
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
