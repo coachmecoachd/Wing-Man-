@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { getDatingAdvice } from '../services/geminiService.ts';
 import { DatingAdviceResponse } from '../types.ts';
 import { CheckCircle2, XCircle, Shirt, MessageCircle, Smile, HelpCircle, Loader2, Sparkles } from 'lucide-react';
+import ReactMarkdown from 'react-markdown@9';
 
 const DatingAdvice: React.FC = () => {
     const [dateType, setDateType] = useState('First Date');
@@ -141,7 +142,9 @@ const DatingAdvice: React.FC = () => {
 
                             {question && advice.questionAnswer && (
                                  <AdviceSection title="Your Question" icon={<HelpCircle size={20} />}>
-                                    <p className="text-gray-300 text-sm">{advice.questionAnswer}</p>
+                                    <div className="prose prose-invert prose-sm max-w-none text-gray-300 prose-p:my-1 prose-ul:my-1 prose-li:my-0">
+                                        <ReactMarkdown>{advice.questionAnswer}</ReactMarkdown>
+                                    </div>
                                 </AdviceSection>
                             )}
                         </div>

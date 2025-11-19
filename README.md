@@ -17,7 +17,7 @@
 
 ---
 
-**Wing Man** is an AI-powered dating assistant designed to help you navigate the complexities of dating with confidence. From crafting the perfect reply to planning a memorable date, Wing Man has your back. This application is a powerful demonstration of the capabilities of the Google Gemini API, running entirely in your browser with no backend server.
+**Wing Man** is an AI-powered dating assistant designed to help you navigate the complexities of dating with confidence. From crafting the perfect reply to planning a memorable date, Wing Man has your back. This application is a powerful demonstration of the capabilities of the Google Gemini API.
 
 ## ✨ Features
 
@@ -32,95 +32,70 @@
 ## 🚀 Getting Started
 
 ### Prerequisites
-Before you begin, ensure you have **Git** installed on your computer to manage the project files.
-*   [**Download Git Here**](https://git-scm.com/downloads) - Choose the version for your operating system (Windows/Mac).
+*   [**Node.js**](https://nodejs.org/) (Version 18 or higher recommended)
+*   [**Git**](https://git-scm.com/downloads)
 
 ### Installation
 
-#### Option A: Clone from GitHub (If starting empty)
-If you have created the repository on GitHub and want to download it:
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/coachmecochd/Wing-Man-.git
-    ```
-2.  **Navigate to the directory:**
-    ```bash
     cd Wing-Man-
     ```
 
-#### Option B: Setup with Existing Files (If you have files locally)
-If you already have the files on your computer and want to start tracking them:
-1.  **Navigate to your folder** in the terminal:
+2.  **Install dependencies:**
     ```bash
-    cd path/to/your/folder
+    npm install
     ```
-    *(e.g., `cd E:\wing-man`)*
-2.  **Initialize Git:**
-    ```bash
-    git init
-    ```
-3.  **Configure Identity (First time only):**
-    If you see an "Author identity unknown" error, run these commands (replace with your info):
-    ```bash
-    git config --global user.email "you@example.com"
-    git config --global user.name "Your Name"
-    ```
-4.  **Save your files:**
-    ```bash
-    git add .
-    git commit -m "Initial setup"
-    ```
+
+### 🔑 API Key Setup (Important!)
+
+You need a Google Gemini API key for the AI features to work.
+
+1.  **Get a Key:** Visit [Google AI Studio](https://aistudio.google.com/app/apikey) and create a free API key.
+2.  **Create Config File:**
+    *   Create a new file in the root folder named `.env`
+    *   Open it and add your key:
+        ```
+        API_KEY=AIzaSy...YourActualKeyHere
+        ```
+    *   *Note: Do not share this file or upload it to GitHub.*
 
 ### Running the App
-1.  **Get a Google Gemini API Key:**
-    *   Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to create your free API key. The execution environment must have this key available as the `API_KEY` environment variable.
-
-2.  **Open the application:**
-    *   Simply open the `index.html` file in a web browser.
-
-## 🌐 Deployment & Updates
-
-### Deploying to GitHub Pages
-Since Wing Man runs entirely in the browser using Babel Standalone, deploying to GitHub Pages is simple:
-
-1.  **Push to GitHub**: Ensure all your files are committed and pushed to your GitHub repository.
-2.  **Enable GitHub Pages**:
-    *   Go to your repository **Settings**.
-    *   Navigate to the **Pages** section (under Code and automation).
-    *   Under **Build and deployment**, select **Deploy from a branch**.
-    *   Select your `main` (or `master`) branch and the `/ (root)` folder.
-    *   Click **Save**.
-3.  **Visit your site**: GitHub will provide a URL (usually `https://yourusername.github.io/Wing-Man-/`).
-
-### 🔄 How to Update Your App
-When you download new code from AI Studio, follow these steps to update your live site:
-
-1.  **Replace Files**: Copy the new files you downloaded into your local folder (overwrite the old ones).
-2.  **Open Terminal**: Open your terminal (Command Prompt/PowerShell) and navigate to your project folder.
-3.  **Run these 3 commands**:
+1.  **Start the development server:**
     ```bash
-    git add .
-    git commit -m "Update app features"
-    git push origin main
+    npm run dev
     ```
-4.  **Wait**: GitHub will automatically rebuild your site in about 1-2 minutes.
+2.  **Open your browser:**
+    *   Visit `http://localhost:5173` (or the URL shown in your terminal).
+
+## 🌐 Deployment to GitHub Pages
+
+1.  **Push your code to GitHub.**
+2.  **Configure the Secret:**
+    *   Go to your GitHub Repository.
+    *   Click **Settings** > **Secrets and variables** > **Actions**.
+    *   Click **New repository secret**.
+    *   **Name:** `API_KEY`
+    *   **Value:** Your Google Gemini API Key.
+3.  **Enable GitHub Pages:**
+    *   Go to **Settings** > **Pages**.
+    *   Under **Source**, select **GitHub Actions**.
+4.  **Watch it Build:**
+    *   Go to the **Actions** tab to see the deployment progress.
 
 ## 🛠️ How It Works
 
-Wing Man is a pure front-end application built with React and TypeScript.
-
-*   **AI Power**: All AI features are powered by the [Google Gemini API](https://ai.google.dev/).
-*   **Local Storage**: All your data (profiles, dates) is stored securely in your browser's `localStorage`. No data is ever sent to a server owned by us.
-*   **Offline First**: Thanks to the service worker, the app shell can be loaded even when you're offline.
+Wing Man is a single-page application (SPA) built with:
+*   **Vite**: For fast building and development.
+*   **React**: For the user interface.
+*   **@google/genai**: To communicate with Google's Gemini models.
+*   **TailwindCSS**: For styling.
 
 ## 🔒 Privacy
 
-Your privacy is paramount. All data is stored locally on your device. Only the necessary, anonymized data is sent to the Google Gemini API for processing when you use an AI feature. For more details, please read our full [Privacy Policy](./privacy-policy.html).
-
-## 🤝 Contributing
-
-Contributions are welcome! If you have ideas for new features or improvements, feel free to open an issue or submit a pull request.
+Your privacy is paramount. All data (profiles, chats) is stored locally on your device using `localStorage`. Only the prompt data needed for AI responses is sent to the Google Gemini API.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License.

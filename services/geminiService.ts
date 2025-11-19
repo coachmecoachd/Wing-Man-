@@ -203,6 +203,11 @@ export const getDatingAdvice = async (dateType: string, question: string): Promi
         The user has a specific question: "${question}".
         
         Please provide a comprehensive response in the requested JSON format. The vibe should be confident, friendly, and supportive.
+        
+        Important:
+        - Keep the 'questionAnswer' concise and easy to read.
+        - Use Markdown formatting (bolding key terms, using bullet points) inside the 'questionAnswer' string to break up long text.
+        - Avoid huge walls of text.
         `;
 
         const schema = {
@@ -221,7 +226,7 @@ export const getDatingAdvice = async (dateType: string, question: string): Promi
                 },
                 conversationStarters: { type: Type.ARRAY, items: { type: Type.STRING }, description: "3-4 interesting questions or topics to bring up." },
                 icebreakerJoke: { type: Type.STRING, description: "A light-hearted, clean joke to break the ice." },
-                questionAnswer: { type: Type.STRING, description: "A direct and thoughtful answer to the user's specific question." }
+                questionAnswer: { type: Type.STRING, description: "A direct, concise, and formatted answer to the user's specific question." }
             },
             required: ['keyVibe', 'dos', 'donts', 'outfitSuggestion', 'conversationStarters', 'questionAnswer']
         };
