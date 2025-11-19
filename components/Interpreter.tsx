@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { translateText, generateSpeech } from '../services/geminiService.ts';
+import { translateText, generateSpeech } from '../services/geminiService';
 import { ArrowRightLeft, Volume2, Loader2 } from 'lucide-react';
 
 // Audio decoding helpers from Gemini documentation

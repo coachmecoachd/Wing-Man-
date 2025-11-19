@@ -1,15 +1,16 @@
 
 import { GoogleGenAI, Modality, Type } from "@google/genai";
-import { PersonProfile, Message, DatingAdviceResponse, DateOption } from '../types.ts';
+import { PersonProfile, Message, DatingAdviceResponse, DateOption } from '../types';
 
 let ai: GoogleGenAI | null = null;
 
 const getAiClient = (): GoogleGenAI => {
     if (!ai) {
-        if (!process.env.API_KEY) {
+        const apiKey = process.env.API_KEY;
+        if (!apiKey) {
             throw new Error("API_KEY environment variable not set.");
         }
-        ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        ai = new GoogleGenAI({ apiKey });
     }
     return ai;
 };

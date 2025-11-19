@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { UserAccount } from '../types.ts';
+import { UserAccount } from '../types';
 import { Menu, LogOut, User } from 'lucide-react';
 
 interface HeaderProps {

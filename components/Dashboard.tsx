@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { View } from '../types.ts';
+import { View } from '../types';
 import { 
   MessageSquareMore, 
   CalendarHeart, 

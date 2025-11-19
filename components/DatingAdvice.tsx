@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { getDatingAdvice } from '../services/geminiService.ts';
-import { DatingAdviceResponse } from '../types.ts';
+import { getDatingAdvice } from '../services/geminiService';
+import { DatingAdviceResponse } from '../types';
 import { CheckCircle2, XCircle, Shirt, MessageCircle, Smile, HelpCircle, Loader2, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { Message } from '../types.ts';
-import { getReplySuggestion } from '../services/geminiService.ts';
+import { Message } from '../types';
+import { getReplySuggestion } from '../services/geminiService';
 import ReactMarkdown from 'react-markdown';
 
 const TextAnalyzer: React.FC = () => {

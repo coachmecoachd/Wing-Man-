@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { PlannedDate, PersonProfile, DateOption } from '../types.ts';
-import { generateStructuredDateIdeas } from '../services/geminiService.ts';
+import { PlannedDate, PersonProfile, DateOption } from '../types';
+import { generateStructuredDateIdeas } from '../services/geminiService';
 import { Trash2, Calendar, MapPin, Clock, StickyNote, Sparkles, Loader2, RefreshCw, Check, ArrowRight } from 'lucide-react';
 
 interface DatePlannerProps {

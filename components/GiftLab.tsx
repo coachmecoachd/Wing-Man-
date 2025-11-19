@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { PersonProfile } from '../types.ts';
-import { generateGiftIdeas, generateGiftImage } from '../services/geminiService.ts';
+import { PersonProfile } from '../types';
+import { generateGiftIdeas, generateGiftImage } from '../services/geminiService';
 import ReactMarkdown from 'react-markdown';
 
 const GiftLab: React.FC<{ profiles: PersonProfile[]; userZip?: string }> = ({ profiles, userZip }) => {

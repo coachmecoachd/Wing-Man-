@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import useLocalStorage from '../hooks/useLocalStorage.ts';
+import useLocalStorage from '../hooks/useLocalStorage';
 import { Loader2, HeartHandshake, AlertCircle } from 'lucide-react';
 
 interface UserAuthData {

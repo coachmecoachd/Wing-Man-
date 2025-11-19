@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { View } from '../types.ts';
-import useLocalStorage from '../hooks/useLocalStorage.ts';
+import { View } from '../types';
+import useLocalStorage from '../hooks/useLocalStorage';
 import { 
   LayoutDashboard, 
   MessageSquareMore, 

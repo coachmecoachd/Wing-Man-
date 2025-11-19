@@ -1,19 +1,19 @@
 
 import React, { useState, useEffect } from 'react';
-import { View, PersonProfile, PlannedDate, UserAccount } from './types.ts';
-import useLocalStorage from './hooks/useLocalStorage.ts';
-import Header from './components/Header.tsx';
-import Sidebar from './components/Sidebar.tsx';
-import Dashboard from './components/Dashboard.tsx';
-import ProfileManager from './components/ProfileManager.tsx';
-import TextAnalyzer from './components/TextAnalyzer.tsx';
-import DatePlanner from './components/DatePlanner.tsx';
-import GiftLab from './components/GiftLab.tsx';
-import DatingAdvice from './components/DatingAdvice.tsx';
-import Interpreter from './components/Interpreter.tsx';
-import Login from './components/Login.tsx';
-import UserSettings from './components/UserSettings.tsx';
-import Tutorial from './components/Tutorial.tsx';
+import { View, PersonProfile, PlannedDate, UserAccount } from './types';
+import useLocalStorage from './hooks/useLocalStorage';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import Dashboard from './components/Dashboard';
+import ProfileManager from './components/ProfileManager';
+import TextAnalyzer from './components/TextAnalyzer';
+import DatePlanner from './components/DatePlanner';
+import GiftLab from './components/GiftLab';
+import DatingAdvice from './components/DatingAdvice';
+import Interpreter from './components/Interpreter';
+import Login from './components/Login';
+import UserSettings from './components/UserSettings';
+import Tutorial from './components/Tutorial';
 
 
 const App: React.FC = () => {

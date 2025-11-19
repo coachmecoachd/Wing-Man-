@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { UserAccount } from '../types.ts';
+import { UserAccount } from '../types';
 import { Upload, RefreshCw, Trash2, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 interface UserSettingsProps {

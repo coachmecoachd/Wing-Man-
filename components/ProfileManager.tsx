@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { PersonProfile } from '../types.ts';
-import { generateDateIdeas } from '../services/geminiService.ts';
+import { PersonProfile } from '../types';
+import { generateDateIdeas } from '../services/geminiService';
 import ReactMarkdown from 'react-markdown';
 import { Camera, ArrowLeft, Edit, Trash2, Plus, User, Sparkles, StickyNote, Save, MapPin, Briefcase, CalendarHeart, ArrowRight } from 'lucide-react';
 
