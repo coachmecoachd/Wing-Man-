@@ -27,7 +27,7 @@
 *   **🎁 Gift Lab**: Brainstorm thoughtful, personalized gift ideas and even generate custom AI art for print-on-demand items.
 *   **💡 Dating Advice**: Get concise, actionable advice on what to wear, what to say, and how to act for any date scenario.
 *   **🌐 Travel Interpreter**: Break language barriers with real-time text translation and natural-sounding text-to-speech.
-*   **⚙️ User Settings**: Personalize your experience with a custom profile picture and location-aware suggestions.
+*   **⚙️ User Settings**: Personalize your experience with a custom display name, avatar, and location-aware suggestions.
 
 ## 🚀 Getting Started
 
@@ -94,7 +94,7 @@ Wing Man is a single-page application (SPA) built with:
 
 ## 🔒 Privacy
 
-Your privacy is paramount. All data (profiles, chats) is stored locally on your device using `localStorage`. Only the prompt data needed for AI responses is sent to the Google Gemini API.
+Your privacy is paramount. All data (profiles, chats, etc.) is stored locally on your device using your browser's `localStorage`. This data is never sent to a server. Only the prompt data needed for AI responses is sent to the Google Gemini API.
 
 ## 📄 License
 

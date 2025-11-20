@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { getDatingAdvice } from '../services/geminiService';
 import { DatingAdviceResponse } from '../types';
-import { CheckCircle2, XCircle, Shirt, MessageCircle, Smile, HelpCircle, Loader2, Sparkles } from 'lucide-react';
+import { CheckCircle2, XCircle, Shirt, MessageCircle, Smile, HelpCircle, Loader2, Sparkles, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 const DatingAdvice: React.FC = () => {
@@ -13,14 +12,8 @@ const DatingAdvice: React.FC = () => {
     const [error, setError] = useState('');
 
     const dateOptions = [
-        'First Date',
-        'Casual Coffee',
-        'Formal Dinner',
-        'Outdoor Activity (e.g., hiking, picnic)',
-        'Movie Night',
-        'Concert / Live Music',
-        'Creative/Artsy (e.g., museum, pottery class)',
-        'Home-cooked Meal',
+        'First Date', 'Casual Coffee', 'Formal Dinner', 'Outdoor Activity',
+        'Movie Night', 'Concert / Live Music', 'Creative/Artsy Date', 'Home-cooked Meal',
     ];
 
     const handleGetAdvice = async () => {
@@ -32,128 +25,136 @@ const DatingAdvice: React.FC = () => {
             const result = await getDatingAdvice(dateType, question || "Give me some general tips.");
             setAdvice(result);
         } catch (e) {
-            if (e instanceof Error) {
-                setError(e.message);
-            } else {
-                setError("An unknown error occurred.");
-            }
+            setError(e instanceof Error ? e.message : "An unknown error occurred.");
         } finally {
             setIsLoading(false);
         }
     };
     
-    const AdviceSection: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode; }> = ({ title, icon, children }) => (
-        <div className="bg-primary/50 border border-tertiary/30 p-4 rounded-xl">
-            <div className="flex items-center gap-3 mb-3 border-b border-tertiary/30 pb-2">
-                <span className="text-accent">{icon}</span>
-                <h3 className="font-bold text-lg text-white">{title}</h3>
+    const AdviceSection: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode; className?: string }> = ({ title, icon, children, className }) => (
+        <div className={`bg-secondary/50 border border-tertiary p-6 rounded-2xl ${className}`}>
+            <div className="flex items-center gap-3 mb-4">
+                <div className="bg-tertiary/50 p-2 rounded-lg text-accent">{icon}</div>
+                <h3 className="font-bold text-xl text-white">{title}</h3>
             </div>
             {children}
         </div>
     );
 
     return (
-        <div>
-            <div className="text-center mb-10">
-                <h2 className="text-4xl font-extrabold text-white">Dating Advice</h2>
-                <p className="mt-2 text-lg text-gray-400 max-w-2xl mx-auto">Your best friend in your pocket, ready to help you navigate any dating scenario.</p>
+        <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+                <h2 className="text-5xl font-extrabold text-white tracking-tight">Dating Advice</h2>
+                <p className="mt-3 text-xl text-slate-400 max-w-2xl mx-auto">Expert coaching for every moment.</p>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8 items-start">
                 {/* Controls */}
-                <div className="bg-secondary p-6 rounded-xl shadow-lg space-y-6 self-start border border-tertiary/50">
-                    <div>
-                        <label htmlFor="date-type" className="block text-sm font-medium text-gray-400">1. What's the occasion?</label>
-                        <select
-                            id="date-type"
-                            value={dateType}
-                            onChange={(e) => setDateType(e.target.value)}
-                            className="mt-1 block w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent"
-                        >
-                            {dateOptions.map(option => <option key={option} value={option}>{option}</option>)}
-                        </select>
+                <div className="bg-secondary p-8 rounded-[2rem] shadow-2xl space-y-6 border border-tertiary lg:sticky top-24">
+                    <div className="relative">
+                        <label htmlFor="date-type" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1">1. The Occasion</label>
+                        <div className="relative">
+                            <select
+                                id="date-type"
+                                value={dateType}
+                                onChange={(e) => setDateType(e.target.value)}
+                                className="w-full bg-tertiary/50 border border-stone-700 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-accent/50 text-white appearance-none cursor-pointer"
+                            >
+                                {dateOptions.map(option => <option key={option} value={option}>{option}</option>)}
+                            </select>
+                            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
+                        </div>
                     </div>
                     <div>
-                        <label htmlFor="question" className="block text-sm font-medium text-gray-400">2. Have a specific question? (Optional)</label>
+                        <label htmlFor="question" className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1">2. Specific Question (Optional)</label>
                         <textarea
                             id="question"
-                            rows={3}
+                            rows={4}
                             value={question}
                             onChange={e => setQuestion(e.target.value)}
-                            className="mt-1 block w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent"
+                            className="w-full bg-tertiary/50 border border-stone-700 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-accent/50 text-white resize-none placeholder-slate-500"
                             placeholder="e.g., What's a good way to bring up a second date?"
                         />
                     </div>
                     <button
                         onClick={handleGetAdvice}
                         disabled={isLoading}
-                        className="w-full bg-accent text-white px-6 py-3 rounded-lg hover:bg-red-600 disabled:bg-gray-600 font-bold transition-colors shadow-md"
+                        className="w-full bg-accent text-white px-6 py-4 rounded-xl hover:bg-accent-hover disabled:bg-tertiary disabled:text-slate-500 font-bold transition-all shadow-lg flex items-center justify-center gap-2 active:scale-95"
                     >
-                        {isLoading ? 'Getting Advice...' : '3. Ask Wing Man'}
+                        {isLoading ? <><Loader2 size={20} className="animate-spin" /> Consulting...</> : '3. Ask Wing Man'}
                     </button>
                 </div>
 
                 {/* Advice Display */}
-                <div className="bg-secondary p-6 rounded-xl shadow-lg min-h-[28rem] flex flex-col border border-tertiary/50">
+                <div className="bg-secondary/30 rounded-[2rem] min-h-[400px] flex flex-col">
                     {isLoading ? (
-                        <div className="flex-grow flex justify-center items-center">
-                             <Loader2 size={48} className="animate-spin text-accent" />
+                        <div className="flex-grow flex flex-col justify-center items-center text-slate-400 py-20">
+                            <Loader2 size={64} className="animate-spin text-accent mb-4" />
+                            <p className="text-lg font-medium">Analyzing the vibe...</p>
                         </div>
                     ) : error ? (
-                         <div className="flex-grow flex flex-col justify-center items-center text-center">
-                            <XCircle size={48} className="text-red-500/50 mb-4" />
-                            <p className="text-red-400">{error}</p>
+                         <div className="flex-grow flex flex-col justify-center items-center text-center py-20 bg-secondary rounded-[2rem] border border-red-900/30">
+                            <XCircle size={64} className="text-red-500 mb-6" />
+                            <p className="text-red-400 font-bold text-xl">Oops, something went wrong.</p>
+                            <p className="text-red-400/70 text-sm mt-2">{error}</p>
                         </div>
                     ): advice ? (
-                        <div className="space-y-4 animate-fade-in">
-                            <div className="text-center bg-tertiary/50 border border-accent/20 p-4 rounded-xl mb-6">
-                                <p className="text-accent text-xs uppercase tracking-widest font-bold mb-1">Key Vibe</p>
-                                <p className="text-2xl font-semibold text-white italic">"{advice.keyVibe}"</p>
+                        <div className="space-y-6 animate-fade-in">
+                            <div className="text-center bg-gradient-to-r from-stone-900 to-stone-800 border border-tertiary p-8 rounded-[2rem] shadow-xl">
+                                <p className="text-accent text-xs uppercase tracking-[0.2em] font-extrabold mb-3">The Vibe</p>
+                                <p className="text-3xl md:text-4xl font-black text-white italic leading-tight">"{advice.keyVibe}"</p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <AdviceSection title="Do's" icon={<CheckCircle2 size={20} />}>
-                                    <ul className="list-none space-y-2 text-gray-300 text-sm">
-                                        {advice.dos.map((item, i) => <li key={i} className="flex items-start gap-2"><span className="text-green-500 mt-0.5"><CheckCircle2 size={14} /></span>{item}</li>)}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <AdviceSection title="Do's" icon={<CheckCircle2 size={20} />} className="bg-green-900/10 border-green-900/30">
+                                    <ul className="list-none space-y-3 text-slate-300">
+                                        {advice.dos.map((item, i) => <li key={i} className="flex items-start gap-3"><span className="text-green-500 mt-1"><CheckCircle2 size={16} /></span><span className="leading-relaxed">{item}</span></li>)}
                                     </ul>
                                 </AdviceSection>
-                                <AdviceSection title="Don'ts" icon={<XCircle size={20} />}>
-                                     <ul className="list-none space-y-2 text-gray-300 text-sm">
-                                        {advice.donts.map((item, i) => <li key={i} className="flex items-start gap-2"><span className="text-red-500 mt-0.5"><XCircle size={14} /></span>{item}</li>)}
+                                <AdviceSection title="Don'ts" icon={<XCircle size={20} />} className="bg-red-900/10 border-red-900/30">
+                                     <ul className="list-none space-y-3 text-slate-300">
+                                        {advice.donts.map((item, i) => <li key={i} className="flex items-start gap-3"><span className="text-red-500 mt-1"><XCircle size={16} /></span><span className="leading-relaxed">{item}</span></li>)}
                                     </ul>
                                 </AdviceSection>
                             </div>
                             
-                            <AdviceSection title="Outfit Suggestion" icon={<Shirt size={20} />}>
-                                <p className="text-gray-300 text-sm font-semibold">{advice.outfitSuggestion.description}</p>
-                                <p className="text-gray-400 text-xs italic mt-1">{advice.outfitSuggestion.reasoning}</p>
-                            </AdviceSection>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <AdviceSection title="Outfit Suggestion" icon={<Shirt size={20} />}>
+                                    <p className="text-white font-semibold text-lg mb-2">{advice.outfitSuggestion.description}</p>
+                                    <p className="text-slate-400 text-sm italic leading-relaxed border-l-2 border-accent pl-3">{advice.outfitSuggestion.reasoning}</p>
+                                </AdviceSection>
+
+                                <AdviceSection title="Icebreaker" icon={<Smile size={20} />}>
+                                     <p className="text-white text-lg italic font-medium">"{advice.icebreakerJoke}"</p>
+                                </AdviceSection>
+                            </div>
 
                             <AdviceSection title="Conversation Starters" icon={<MessageCircle size={20} />}>
-                                <ul className="list-disc list-inside space-y-2 text-gray-300 text-sm marker:text-accent">
-                                    {advice.conversationStarters.map((item, i) => <li key={i}>{item}</li>)}
+                                <ul className="space-y-3 text-slate-300">
+                                    {advice.conversationStarters.map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0"></div>
+                                            <span className="leading-relaxed">{item}</span>
+                                        </li>
+                                    ))}
                                 </ul>
                             </AdviceSection>
 
-                            {advice.icebreakerJoke && (
-                                 <AdviceSection title="Icebreaker" icon={<Smile size={20} />}>
-                                    <p className="text-gray-300 text-sm italic">"{advice.icebreakerJoke}"</p>
-                                </AdviceSection>
-                            )}
-
                             {question && advice.questionAnswer && (
                                  <AdviceSection title="Your Question" icon={<HelpCircle size={20} />}>
-                                    <div className="prose prose-invert prose-sm max-w-none text-gray-300 prose-p:my-1 prose-ul:my-1 prose-li:my-0">
+                                    <div className="prose prose-invert max-w-none text-slate-300 prose-p:leading-relaxed">
                                         <ReactMarkdown>{advice.questionAnswer}</ReactMarkdown>
                                     </div>
                                 </AdviceSection>
                             )}
                         </div>
                     ) : (
-                        <div className="flex-grow flex flex-col justify-center items-center text-center p-8">
-                            <div className="bg-tertiary/30 p-6 rounded-full mb-4">
-                                <Sparkles size={48} className="text-gray-500" />
+                        <div className="flex-grow flex flex-col justify-center items-center text-center py-20 bg-secondary rounded-[2rem] border border-tertiary">
+                            <div className="bg-tertiary/30 p-8 rounded-full mb-6">
+                                <Sparkles size={64} className="text-slate-600" />
                             </div>
-                            <p className="text-gray-500 max-w-xs">Select a date type and ask a question to get personalized dating advice from your Wing Man.</p>
+                            <h3 className="text-2xl font-bold text-white mb-2">Ask away</h3>
+                            <p className="text-slate-400 max-w-xs">Select a date type and ask a question to get personalized coaching.</p>
                         </div>
                     )}
                 </div>

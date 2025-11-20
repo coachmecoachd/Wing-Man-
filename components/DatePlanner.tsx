@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { PlannedDate, PersonProfile, DateOption } from '../types';
 import { generateStructuredDateIdeas } from '../services/geminiService';
-import { Trash2, Calendar, MapPin, Clock, StickyNote, Sparkles, Loader2, RefreshCw, Check, ArrowRight } from 'lucide-react';
+import { Trash2, Calendar, MapPin, Clock, StickyNote, Sparkles, Loader2, RefreshCw, Check, ArrowRight, ArrowLeft } from 'lucide-react';
 
 interface DatePlannerProps {
   dates: PlannedDate[];
@@ -21,7 +20,6 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'plan' | 'calendar'>('plan');
   
-  // Planner State
   const [step, setStep] = useState<'input' | 'results' | 'edit'>('input');
   const [selectedProfileId, setSelectedProfileId] = useState('');
   const [zipCode, setZipCode] = useState('');
@@ -29,7 +27,6 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedOptions, setGeneratedOptions] = useState<DateOption[]>([]);
   
-  // Edit State (for saving)
   const [dateToSave, setDateToSave] = useState<Partial<PlannedDate>>({});
 
   useEffect(() => {
@@ -44,7 +41,7 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
       if (!zipCode || !dateTime) return;
       setIsGenerating(true);
       setStep('results');
-      setGeneratedOptions([]); // clear old
+      setGeneratedOptions([]); 
       
       const profile = profiles.find(p => p.id === selectedProfileId);
       
@@ -53,7 +50,7 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
           setGeneratedOptions(options);
       } catch (error) {
           console.error(error);
-          // Fallback or error state could go here
+          setGeneratedOptions([]);
       } finally {
           setIsGenerating(false);
       }
@@ -75,6 +72,9 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
       setStep('input');
       setGeneratedOptions([]);
       setDateToSave({});
+      setSelectedProfileId('');
+      setZipCode('');
+      setDateTime('');
       onClearInitialProfile();
       setActiveTab('calendar');
   };
@@ -84,26 +84,28 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
         setDates(dates.filter(d => d.id !== id));
     }
   };
+  
+  const inputClasses = "w-full bg-tertiary/50 border border-stone-700 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent text-white placeholder-slate-500 transition-all";
+  const labelClasses = "block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1";
 
   return (
-    <div className="space-y-8">
-        <div className="text-center mb-8">
-            <h2 className="text-4xl font-extrabold text-white">Date Planner</h2>
-            <p className="mt-2 text-lg text-gray-400">Plan the perfect outing or manage your schedule.</p>
+    <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-10">
+            <h2 className="text-5xl font-extrabold text-white tracking-tight">Date Planner</h2>
+            <p className="mt-3 text-xl text-slate-400">Plan the perfect outing tailored to you.</p>
         </div>
 
-        {/* Tabs */}
-        <div className="flex justify-center mb-8">
-            <div className="bg-secondary p-1 rounded-xl inline-flex border border-tertiary">
+        <div className="flex justify-center mb-10">
+            <div className="bg-secondary p-1.5 rounded-2xl inline-flex border border-tertiary shadow-lg">
                 <button 
                     onClick={() => setActiveTab('plan')}
-                    className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'plan' ? 'bg-accent text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+                    className={`px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${activeTab === 'plan' ? 'bg-accent text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                 >
                     Plan a Date
                 </button>
                 <button 
                     onClick={() => setActiveTab('calendar')}
-                    className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'calendar' ? 'bg-accent text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+                    className={`px-8 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${activeTab === 'calendar' ? 'bg-accent text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                 >
                     My Calendar
                 </button>
@@ -112,59 +114,39 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
 
         {activeTab === 'plan' && (
             <div className="animate-fade-in">
-                {/* STEP 1: INPUT */}
                 {step === 'input' && (
-                    <div className="max-w-2xl mx-auto bg-secondary p-8 rounded-2xl shadow-xl border border-tertiary/50">
-                        <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                            <Sparkles className="text-accent" />
+                    <div className="max-w-2xl mx-auto bg-secondary p-8 md:p-10 rounded-[2rem] shadow-2xl border border-tertiary">
+                        <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                            <div className="bg-accent/10 p-2 rounded-lg"><Sparkles className="text-accent" size={24}/></div>
                             Create My Perfect Date
                         </h3>
                         
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">When?</label>
-                                    <input 
-                                        type="datetime-local" 
-                                        value={dateTime} 
-                                        onChange={e => setDateTime(e.target.value)} 
-                                        className="w-full bg-tertiary border-transparent rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-accent text-white" 
-                                    />
+                                    <label className={labelClasses}>When?</label>
+                                    <input type="datetime-local" value={dateTime} onChange={e => setDateTime(e.target.value)} className={inputClasses} />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Where? (Zip Code)</label>
-                                    <input 
-                                        type="text" 
-                                        value={zipCode} 
-                                        onChange={e => setZipCode(e.target.value)} 
-                                        placeholder="e.g. 90210"
-                                        className="w-full bg-tertiary border-transparent rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-accent text-white" 
-                                    />
+                                    <label className={labelClasses}>Where? (Zip Code)</label>
+                                    <input type="text" value={zipCode} onChange={e => setZipCode(e.target.value)} placeholder="e.g. 90210" className={inputClasses} />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Who are you going with? (Optional)</label>
-                                <select 
-                                    value={selectedProfileId} 
-                                    onChange={e => {
-                                        setSelectedProfileId(e.target.value);
-                                        const p = profiles.find(prof => prof.id === e.target.value);
-                                        if (p?.zipCode && !zipCode) setZipCode(p.zipCode);
-                                    }}
-                                    className="w-full bg-tertiary border-transparent rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-accent text-white"
-                                >
+                                <label className={labelClasses}>Who are you going with?</label>
+                                <select value={selectedProfileId} onChange={e => {
+                                    setSelectedProfileId(e.target.value);
+                                    const p = profiles.find(prof => prof.id === e.target.value);
+                                    if (p?.zipCode && !zipCode) setZipCode(p.zipCode);
+                                }} className={inputClasses}>
                                     <option value="">Just me / Deciding later</option>
                                     {profiles.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                                 </select>
-                                <p className="text-xs text-gray-500 mt-2">Selecting a profile helps AI tailor the date to their interests.</p>
+                                <p className="text-xs text-slate-500 mt-3 flex items-center gap-1"><Sparkles size={12} /> Select a profile to get personalized ideas.</p>
                             </div>
 
-                            <button 
-                                onClick={handleGenerate}
-                                disabled={!zipCode || !dateTime}
-                                className="w-full bg-accent hover:bg-red-600 disabled:bg-gray-600 text-white py-4 rounded-xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 mt-4"
-                            >
+                            <button onClick={handleGenerate} disabled={!zipCode || !dateTime} className="w-full bg-accent hover:bg-accent-hover disabled:bg-tertiary disabled:text-slate-500 text-white py-4 rounded-xl font-bold shadow-lg shadow-accent/20 transition-all flex items-center justify-center gap-2 mt-6 active:scale-95">
                                 <Sparkles size={20} />
                                 Generate Date Ideas
                             </button>
@@ -172,54 +154,48 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
                     </div>
                 )}
 
-                {/* STEP 2: RESULTS */}
                 {step === 'results' && (
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                         <div className="flex items-center justify-between">
-                             <button onClick={() => setStep('input')} className="text-gray-400 hover:text-white text-sm font-medium">
-                                &larr; Back to details
+                             <button onClick={() => setStep('input')} className="text-slate-400 hover:text-white text-sm font-bold uppercase tracking-wide flex items-center gap-2 transition-colors group">
+                                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to details
                             </button>
-                            <h3 className="text-xl font-bold text-white">Select an Option</h3>
+                            <h3 className="text-xl font-bold text-white">Select an Idea</h3>
                         </div>
 
                         {isGenerating ? (
-                            <div className="py-20 text-center bg-secondary/30 rounded-2xl border border-dashed border-tertiary">
-                                <Loader2 size={48} className="animate-spin text-accent mx-auto mb-4" />
-                                <p className="text-xl font-medium text-white">Analyzing local spots...</p>
-                                <p className="text-gray-400">Finding the perfect match for your date.</p>
+                            <div className="py-32 text-center bg-secondary/30 rounded-[2rem] border-2 border-dashed border-tertiary flex flex-col items-center justify-center">
+                                <Loader2 size={56} className="animate-spin text-accent mb-6" />
+                                <p className="text-2xl font-bold text-white mb-2">Analyzing local spots...</p>
+                                <p className="text-slate-400">Finding the perfect match for your date.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {generatedOptions.map((option, idx) => (
-                                    <div key={idx} className="bg-secondary rounded-2xl p-6 border border-tertiary/50 hover:border-accent transition-all hover:shadow-2xl flex flex-col relative group overflow-hidden">
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none group-hover:bg-accent/10 transition-colors"></div>
-                                        <div className="relative z-10 flex-grow">
-                                            <h4 className="text-xl font-bold text-white mb-2">{option.title}</h4>
-                                            <div className="flex items-center gap-2 text-accent text-sm font-bold mb-3 uppercase tracking-wide">
-                                                <MapPin size={14} />
+                                    <div key={idx} className="bg-secondary rounded-3xl p-8 border border-tertiary hover:border-accent/50 transition-all hover:shadow-2xl flex flex-col relative group animate-slide-up" style={{ animationDelay: `${idx * 100}ms` }}>
+                                        <div className="flex-grow">
+                                            <h4 className="text-2xl font-bold text-white mb-3">{option.title}</h4>
+                                            <div className="flex items-center gap-2 text-accent text-xs font-bold mb-4 uppercase tracking-widest bg-accent/10 py-1.5 px-3 rounded-full w-fit">
+                                                <MapPin size={12} />
                                                 {option.location}
                                             </div>
-                                            <p className="text-gray-300 mb-4 text-sm leading-relaxed">{option.description}</p>
-                                            <div className="bg-tertiary/30 p-3 rounded-lg text-xs text-gray-400 italic border border-tertiary/30">
-                                                <span className="font-bold text-gray-300 not-italic mr-1">Why:</span>
+                                            <p className="text-slate-300 mb-6 leading-relaxed">{option.description}</p>
+                                            <div className="bg-black/20 p-4 rounded-xl text-sm text-slate-400 border border-white/5">
+                                                <strong className="text-slate-200 block mb-1 font-bold text-xs uppercase tracking-wide">Why this works:</strong>
                                                 {option.reasoning}
                                             </div>
                                         </div>
-                                        <button 
-                                            onClick={() => handleSelectOption(option)}
-                                            className="mt-6 w-full bg-white text-primary hover:bg-gray-100 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
-                                        >
-                                            Select this Idea <ArrowRight size={16} />
+                                        <button onClick={() => handleSelectOption(option)} className="mt-8 w-full bg-white text-stone-900 hover:bg-slate-200 font-bold py-4 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg active:scale-95">
+                                            Select this Idea <ArrowRight size={18} />
                                         </button>
                                     </div>
                                 ))}
                             </div>
                         )}
-
                         {!isGenerating && (
-                            <div className="flex justify-center mt-8">
-                                <button onClick={handleGenerate} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors bg-tertiary/50 px-4 py-2 rounded-full hover:bg-tertiary">
-                                    <RefreshCw size={16} />
+                            <div className="flex justify-center mt-10">
+                                <button onClick={handleGenerate} className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors bg-tertiary/50 px-6 py-3 rounded-full hover:bg-tertiary font-medium">
+                                    <RefreshCw size={18} />
                                     Regenerate Options
                                 </button>
                             </div>
@@ -227,20 +203,14 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
                     </div>
                 )}
 
-                {/* STEP 3: EDIT & SAVE */}
                 {step === 'edit' && (
                      <div className="max-w-2xl mx-auto">
-                        <button onClick={() => setStep('results')} className="text-gray-400 hover:text-white text-sm font-medium mb-4 block">
-                            &larr; Back to options
+                        <button onClick={() => setStep('results')} className="text-slate-400 hover:text-white text-sm font-bold uppercase tracking-wide mb-6 flex items-center gap-2 group">
+                            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to options
                         </button>
-                        <div className="bg-secondary p-8 rounded-2xl shadow-xl border border-tertiary/50">
-                            <h3 className="text-2xl font-bold text-white mb-6">Finalize & Save</h3>
-                            <DateForm 
-                                initialData={dateToSave} 
-                                profiles={profiles} 
-                                onSave={handleSaveDate} 
-                                onCancel={() => setStep('results')}
-                            />
+                        <div className="bg-secondary p-8 md:p-10 rounded-[2rem] shadow-2xl border border-tertiary">
+                            <h3 className="text-3xl font-extrabold text-white mb-8">Finalize & Save</h3>
+                            <DateForm initialData={dateToSave} profiles={profiles} onSave={handleSaveDate} onCancel={() => setStep('results')} />
                         </div>
                     </div>
                 )}
@@ -256,7 +226,6 @@ const DatePlanner: React.FC<DatePlannerProps> = ({
   );
 };
 
-// --- Sub Components ---
 
 const DateForm: React.FC<{
   initialData?: Partial<PlannedDate>;
@@ -273,46 +242,42 @@ const DateForm: React.FC<{
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !personId || !date) return;
-    onSave({ 
-        id: Date.now().toString(),
-        title, 
-        personId, 
-        date, 
-        location, 
-        notes 
-    });
+    onSave({ id: Date.now().toString(), title, personId, date, location, notes });
   };
+  
+  const inputClasses = "mt-1 block w-full bg-tertiary/50 border border-stone-700 rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-accent/50 text-white transition-all";
+  const labelClasses = "block text-xs font-bold text-slate-400 uppercase tracking-wider ml-1";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="title" className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Date Title</label>
-          <input type="text" id="title" value={title} onChange={e => setTitle(e.target.value)} className="mt-1 block w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent" required placeholder="e.g. Dinner & Movie" />
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="md:col-span-2">
+          <label htmlFor="title" className={labelClasses}>Date Title</label>
+          <input type="text" id="title" value={title} onChange={e => setTitle(e.target.value)} className={inputClasses} required placeholder="e.g. Dinner & Movie" />
         </div>
         <div>
-          <label htmlFor="personId" className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">With</label>
-          <select id="personId" value={personId} onChange={e => setPersonId(e.target.value)} className="mt-1 block w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent" required>
+          <label htmlFor="personId" className={labelClasses}>With</label>
+          <select id="personId" value={personId} onChange={e => setPersonId(e.target.value)} className={inputClasses} required>
             <option value="" disabled>Select a profile</option>
             {profiles.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
           </select>
         </div>
         <div>
-          <label htmlFor="date" className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Date & Time</label>
-          <input type="datetime-local" id="date" value={date} onChange={e => setDate(e.target.value)} className="mt-1 block w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent" required />
+          <label htmlFor="date" className={labelClasses}>Date & Time</label>
+          <input type="datetime-local" id="date" value={date} onChange={e => setDate(e.target.value)} className={inputClasses} required />
         </div>
-        <div>
-          <label htmlFor="location" className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Location</label>
-          <input type="text" id="location" value={location} onChange={e => setLocation(e.target.value)} className="mt-1 block w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent" placeholder="e.g., The Cozy Cafe" />
+        <div className="md:col-span-2">
+          <label htmlFor="location" className={labelClasses}>Location</label>
+          <input type="text" id="location" value={location} onChange={e => setLocation(e.target.value)} className={inputClasses} placeholder="e.g., The Cozy Cafe" />
         </div>
       </div>
       <div>
-        <label htmlFor="notes" className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Notes</label>
-        <textarea id="notes" value={notes} onChange={e => setNotes(e.target.value)} rows={4} className="mt-1 block w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent" placeholder="Reservation info, dress code, etc."></textarea>
+        <label htmlFor="notes" className={labelClasses}>Notes</label>
+        <textarea id="notes" value={notes} onChange={e => setNotes(e.target.value)} rows={4} className={inputClasses} placeholder="Reservation info, dress code, etc."></textarea>
       </div>
-      <div className="flex justify-end gap-3 pt-4">
-        <button type="button" onClick={onCancel} className="text-gray-400 hover:text-white px-4 font-medium transition-colors">Cancel</button>
-        <button type="submit" className="bg-accent text-white px-8 py-3 rounded-lg hover:bg-red-600 font-bold transition-colors shadow-md">Save to Calendar</button>
+      <div className="flex justify-end gap-4 pt-6 border-t border-tertiary">
+        <button type="button" onClick={onCancel} className="text-slate-400 hover:text-white px-6 py-3 font-bold transition-colors rounded-xl hover:bg-tertiary">Cancel</button>
+        <button type="submit" className="bg-accent text-white px-8 py-3 rounded-xl hover:bg-accent-hover font-bold transition-all shadow-lg active:scale-95">Save to Calendar</button>
       </div>
     </form>
   );
@@ -334,42 +299,34 @@ const DateList: React.FC<{
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     const DateCard: React.FC<{ date: PlannedDate }> = ({ date }) => (
-        <div className="bg-secondary p-5 rounded-xl shadow-lg flex flex-col sm:flex-row items-start gap-5 border border-tertiary/50 hover:border-accent/50 transition-colors group">
-            <div className="flex-shrink-0 text-center sm:text-left bg-tertiary/30 p-3 rounded-lg min-w-[80px] flex flex-col items-center justify-center">
-                <div className="text-accent text-xs uppercase font-bold">{new Date(date.date).toLocaleDateString(undefined, { weekday: 'short' })}</div>
-                <div className="text-white text-3xl font-extrabold">{new Date(date.date).getDate()}</div>
-                <div className="text-gray-400 text-xs uppercase font-medium">{new Date(date.date).toLocaleDateString(undefined, { month: 'short' })}</div>
+        <div className="bg-secondary p-6 rounded-2xl shadow-lg flex flex-col sm:flex-row items-start gap-6 border border-tertiary hover:border-accent/30 transition-colors group">
+            <div className="flex-shrink-0 text-center bg-stone-950 p-4 rounded-xl min-w-[90px] flex flex-col items-center justify-center border border-tertiary">
+                <div className="text-accent text-xs uppercase font-bold tracking-wider">{new Date(date.date).toLocaleDateString(undefined, { weekday: 'short' })}</div>
+                <div className="text-white text-3xl font-black my-1">{new Date(date.date).getDate()}</div>
+                <div className="text-slate-500 text-xs uppercase font-bold">{new Date(date.date).toLocaleDateString(undefined, { month: 'short' })}</div>
             </div>
-            <div className="flex-grow">
+            <div className="flex-grow w-full">
                 <div className="flex justify-between items-start">
                     <div>
                         <h4 className="font-bold text-xl text-white mb-1">{date.title}</h4>
-                        <p className="text-sm text-gray-400 flex items-center gap-1">
-                            with <span className="text-white font-medium">{getProfileName(date.personId)}</span>
+                        <p className="text-sm text-slate-400 flex items-center gap-1">
+                            Date with <span className="text-accent font-semibold">{getProfileName(date.personId)}</span>
                         </p>
                     </div>
-                    <button onClick={() => onDelete(date.id)} className="text-gray-500 hover:text-red-500 p-2 rounded-full hover:bg-tertiary transition-colors opacity-0 group-hover:opacity-100">
-                        <Trash2 size={18} />
+                    <button onClick={() => onDelete(date.id)} className="text-slate-600 hover:text-red-500 p-2 rounded-full hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100">
+                        <Trash2 size={20} />
                     </button>
                 </div>
                 
-                <div className="mt-3 space-y-1">
-                    <p className="text-sm text-gray-300 flex items-center gap-2">
-                        <Clock size={14} className="text-accent" />
-                        {new Date(date.date).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                    {date.location && (
-                        <p className="text-sm text-gray-300 flex items-center gap-2">
-                            <MapPin size={14} className="text-accent" />
-                            {date.location}
-                        </p>
-                    )}
+                <div className="mt-4 space-y-2 text-slate-300">
+                    <p className="text-sm flex items-center gap-2.5 font-medium"><Clock size={16} className="text-accent" />{new Date(date.date).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</p>
+                    {date.location && <p className="text-sm flex items-center gap-2.5 font-medium"><MapPin size={16} className="text-accent" />{date.location}</p>}
                 </div>
 
                 {date.notes && (
-                    <div className="mt-3 text-sm bg-primary/50 p-3 rounded-lg border border-tertiary/30 flex gap-2 items-start">
-                        <StickyNote size={14} className="text-gray-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-gray-400 italic whitespace-pre-wrap">{date.notes}</p>
+                    <div className="mt-4 text-sm bg-black/20 p-4 rounded-xl border border-white/5 flex gap-3 items-start">
+                        <StickyNote size={16} className="text-slate-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-slate-400 italic whitespace-pre-wrap leading-relaxed">{date.notes}</p>
                     </div>
                 )}
             </div>
@@ -377,24 +334,21 @@ const DateList: React.FC<{
     );
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
             <div>
-                <h3 className="text-lg text-accent font-semibold mb-4 flex items-center gap-2">
-                    <Calendar size={20} />
-                    Upcoming
-                </h3>
+                <h3 className="text-xl text-white font-bold mb-6 flex items-center gap-2"><div className="w-2 h-8 bg-accent rounded-full"></div> Upcoming</h3>
                 {upcomingDates.length > 0 ? (
                     <div className="space-y-4">{upcomingDates.map(d => <DateCard key={d.id} date={d}/>)}</div>
                 ) : (
-                    <div className="text-center py-10 bg-secondary/50 rounded-xl border border-dashed border-tertiary">
-                        <p className="text-gray-500">No upcoming dates scheduled.</p>
+                    <div className="text-center py-16 bg-secondary/30 rounded-[2rem] border border-dashed border-tertiary">
+                        <p className="text-slate-500 font-medium">No upcoming dates scheduled.</p>
                     </div>
                 )}
             </div>
             {pastDates.length > 0 && (
                 <div>
-                     <h3 className="text-lg text-gray-500 font-semibold mb-4">Past</h3>
-                    <div className="space-y-4 opacity-75">{pastDates.map(d => <DateCard key={d.id} date={d}/>)}</div>
+                     <h3 className="text-xl text-slate-500 font-bold mb-6 flex items-center gap-2"><div className="w-2 h-8 bg-slate-600 rounded-full"></div> Past</h3>
+                    <div className="space-y-4 opacity-60 hover:opacity-100 transition-opacity">{pastDates.map(d => <DateCard key={d.id} date={d}/>)}</div>
                 </div>
             )}
         </div>

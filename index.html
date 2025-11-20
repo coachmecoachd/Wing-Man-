@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="./assets/icon-192x192.svg" />
     <link rel="manifest" href="./manifest.json" />
-    <meta name="theme-color" content="#1a1a2e" />
+    <meta name="theme-color" content="#0c0a09" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wing Man</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,42 +19,55 @@
               sans: ['Inter', 'sans-serif'],
             },
             colors: {
-              'primary': '#1a1a2e',
-              'secondary': '#16213e',
-              'tertiary': '#0f3460',
-              'accent': '#e94560',
+              'primary': '#0c0a09',
+              'secondary': '#1c1917',
+              'tertiary': '#292524',
+              'accent': '#e11d48',
+              'accent-hover': '#be123c',
+              'slate': {
+                100: '#f5f5f4',
+                200: '#e7e5e4',
+                300: '#d6d3d1',
+                400: '#a8a29e',
+                500: '#78716c',
+                600: '#57534e',
+              }
             },
             animation: {
-              'fade-in': 'fadeIn 0.5s ease-out',
-              'bounce-slow': 'bounce 3s infinite',
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'slide-up': 'slideUp 0.5s ease-out forwards',
             },
             keyframes: {
               fadeIn: {
-                '0%': { opacity: '0', transform: 'scale(0.95)' },
-                '100%': { opacity: '1', transform: 'scale(1)' },
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
               }
             }
-          },
-        },
+          }
+        }
       }
     </script>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
-    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
-    "vite": "https://aistudiocdn.com/vite@^7.2.2",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://aistudiocdn.com/react@^19.2.0",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+        "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+        "vite": "https://aistudiocdn.com/vite@^7.2.4",
+        "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+      }
+    }
+    </script>
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-primary text-white font-sans antialiased selection:bg-accent selection:text-white">
+  <body class="bg-primary text-slate-300 font-sans antialiased selection:bg-accent selection:text-white overflow-hidden">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

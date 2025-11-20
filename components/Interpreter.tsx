@@ -1,9 +1,7 @@
-
 import React, { useState, useRef } from 'react';
 import { translateText, generateSpeech } from '../services/geminiService';
-import { ArrowRightLeft, Volume2, Loader2 } from 'lucide-react';
+import { ArrowRightLeft, Volume2, Loader2, Mic } from 'lucide-react';
 
-// Audio decoding helpers from Gemini documentation
 function decode(base64: string) {
   const binaryString = atob(base64);
   const len = binaryString.length;
@@ -61,7 +59,6 @@ const Interpreter: React.FC = () => {
             if (!AudioContextClass) {
                 throw new Error("Web Audio API is not supported in this browser.");
             }
-            // Modern AudioContext takes an options object, legacy webkitAudioContext does not.
             if (AudioContextClass === window.AudioContext) {
                  audioContextRef.current = new AudioContextClass({ sampleRate: 24000 });
             } else {
@@ -116,101 +113,88 @@ const Interpreter: React.FC = () => {
         setTranslatedText(inputText);
     };
 
+    const selectClasses = "w-full bg-tertiary border-none rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-accent/50 text-white font-bold cursor-pointer";
+
     return (
-        <div>
-            <div className="text-center mb-10">
-                <h2 className="text-4xl font-extrabold text-white">Travel Interpreter</h2>
-                <p className="mt-2 text-lg text-gray-400 max-w-2xl mx-auto">Break language barriers on the go. Powered by Wing Man.</p>
+        <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+                <h2 className="text-5xl font-extrabold text-white tracking-tight">Travel Interpreter</h2>
+                <p className="mt-3 text-xl text-slate-400">Break barriers. Connect globally.</p>
             </div>
-            <div className="bg-secondary p-6 rounded-xl shadow-lg border border-tertiary/50">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                    {/* Input Column */}
-                    <div className="flex flex-col gap-4">
-                         <label htmlFor="source-lang" className="sr-only">Source Language</label>
-                        <select
-                            id="source-lang"
-                            value={sourceLang}
-                            onChange={e => setSourceLang(e.target.value)}
-                            className="w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent"
-                        >
+            
+            <div className="bg-secondary p-8 rounded-[2rem] shadow-2xl border border-tertiary">
+                <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
+                     <div className="w-full md:w-1/3">
+                        <select value={sourceLang} onChange={e => setSourceLang(e.target.value)} className={selectClasses}>
                             {languageList.map(lang => <option key={lang.code} value={lang.code}>{lang.name}</option>)}
                         </select>
-                         <label htmlFor="input-text" className="sr-only">Text to Translate</label>
-                        <textarea
-                            id="input-text"
+                     </div>
+                     <button
+                        onClick={handleSwapLanguages}
+                        className="p-3 bg-stone-800 rounded-full hover:bg-accent transition-all text-slate-300 hover:text-white shadow-lg"
+                        aria-label="Swap languages"
+                    >
+                        <ArrowRightLeft size={20} className="md:rotate-0 rotate-90" />
+                    </button>
+                     <div className="w-full md:w-1/3">
+                        <select value={targetLang} onChange={e => setTargetLang(e.target.value)} className={selectClasses}>
+                            {languageList.map(lang => <option key={lang.code} value={lang.code}>{lang.name}</option>)}
+                        </select>
+                     </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Input */}
+                    <div className="relative">
+                         <textarea
                             value={inputText}
                             onChange={e => setInputText(e.target.value)}
                             rows={8}
-                            className="w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent"
-                            placeholder="Enter text to translate..."
+                            className="w-full h-full bg-tertiary/30 border border-stone-700 rounded-2xl p-5 focus:outline-none focus:ring-2 focus:ring-accent/50 text-white placeholder-slate-500 resize-none text-lg leading-relaxed"
+                            placeholder="Enter text..."
                         />
                     </div>
-                     {/* Swap Button for mobile */}
-                    <div className="flex justify-center md:hidden">
-                         <button
-                            onClick={handleSwapLanguages}
-                            className="p-3 bg-tertiary rounded-full hover:bg-accent transition-colors"
-                            aria-label="Swap languages"
-                        >
-                            <ArrowRightLeft size={20} className="rotate-90" />
-                        </button>
-                    </div>
-                    {/* Output Column */}
-                    <div className="flex flex-col gap-4">
-                         <label htmlFor="target-lang" className="sr-only">Target Language</label>
-                        <select
-                            id="target-lang"
-                            value={targetLang}
-                            onChange={e => setTargetLang(e.target.value)}
-                            className="w-full bg-tertiary border-transparent rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent"
-                        >
-                            {languageList.map(lang => <option key={lang.code} value={lang.code}>{lang.name}</option>)}
-                        </select>
-                        <div className="w-full h-full bg-primary/50 border border-tertiary/30 rounded-lg p-3 min-h-[12rem] text-gray-300 relative">
+
+                    {/* Output */}
+                    <div className="relative">
+                         <div className="w-full h-full bg-black/20 border border-stone-700 rounded-2xl p-5 min-h-[14rem] text-slate-200 text-lg leading-relaxed flex flex-col">
                             {isTranslating ? (
-                                <div className="flex items-center justify-center h-full text-accent gap-2">
-                                    <Loader2 className="animate-spin" /> Translating...
+                                <div className="flex-grow flex items-center justify-center text-accent gap-2">
+                                    <Loader2 className="animate-spin" size={24} /> Translating...
                                 </div>
                             ) : translatedText ? (
-                                translatedText
+                                <div className="flex-grow">{translatedText}</div>
                             ) : (
-                                <span className="text-gray-600 italic">Translation will appear here...</span>
+                                <span className="text-slate-600 italic">Translation will appear here...</span>
                             )}
                             
                             {translatedText && !isTranslating && (
                                 <button 
                                     onClick={handlePlayAudio}
                                     disabled={isGeneratingAudio}
-                                    className="absolute bottom-3 right-3 bg-accent p-2.5 rounded-full hover:bg-red-600 disabled:bg-gray-600 transition-colors shadow-lg"
+                                    className="absolute bottom-4 right-4 bg-white text-stone-900 p-3 rounded-full hover:bg-slate-200 disabled:bg-stone-700 transition-all shadow-lg"
                                     aria-label="Play audio"
                                 >
                                     {isGeneratingAudio 
-                                        ? <Loader2 size={20} className="animate-spin text-white" />
-                                        : <Volume2 size={20} className="text-white" />
+                                        ? <Loader2 size={20} className="animate-spin text-accent" />
+                                        : <Volume2 size={24} />
                                     }
                                 </button>
                             )}
                         </div>
                     </div>
                 </div>
-                {/* Actions */}
-                <div className="flex justify-center items-center gap-6 mt-8">
-                     <button
-                        onClick={handleSwapLanguages}
-                        className="p-3 bg-tertiary rounded-full hover:bg-accent hidden md:block transition-colors"
-                        aria-label="Swap languages"
-                    >
-                         <ArrowRightLeft size={24} />
-                    </button>
+
+                <div className="mt-8">
                     <button
                         onClick={handleTranslate}
                         disabled={isTranslating || !inputText.trim()}
-                        className="w-full sm:w-auto bg-accent text-white px-10 py-3.5 rounded-lg hover:bg-red-600 disabled:bg-gray-600 font-bold text-lg shadow-lg transition-all transform active:scale-95"
+                        className="w-full bg-accent text-white py-4 rounded-xl hover:bg-accent-hover disabled:bg-tertiary disabled:text-slate-500 font-bold text-lg shadow-lg shadow-accent/20 transition-all transform active:scale-[0.98]"
                     >
-                        {isTranslating ? 'Translating...' : 'Translate'}
+                        {isTranslating ? 'Translating...' : 'Translate Text'}
                     </button>
                 </div>
-                {error && <p className="text-center text-red-400 mt-4">{error}</p>}
+                {error && <p className="text-center text-red-400 mt-4 bg-red-900/20 p-2 rounded-lg">{error}</p>}
             </div>
         </div>
     );

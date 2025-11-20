@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { PersonProfile } from '../types';
 import { generateGiftIdeas, generateGiftImage } from '../services/geminiService';
 import ReactMarkdown from 'react-markdown';
+import { Sparkles, Image as ImageIcon, Loader2, Gift } from 'lucide-react';
 
 const GiftLab: React.FC<{ profiles: PersonProfile[]; userZip?: string }> = ({ profiles, userZip }) => {
   const [selectedProfileId, setSelectedProfileId] = useState<string>('');
@@ -11,6 +11,9 @@ const GiftLab: React.FC<{ profiles: PersonProfile[]; userZip?: string }> = ({ pr
   const [generatedImage, setGeneratedImage] = useState('');
   const [isGeneratingIdeas, setIsGeneratingIdeas] = useState(false);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  
+  const inputClasses = "w-full bg-tertiary/50 border border-stone-700 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-accent/50 text-white placeholder-slate-500 transition-all";
+  const labelClasses = "block text-sm font-bold text-slate-400 mb-2 ml-1 uppercase tracking-wider text-xs";
 
   const handleGenerateIdeas = async () => {
     if (!selectedProfileId) return;
@@ -47,78 +50,97 @@ const GiftLab: React.FC<{ profiles: PersonProfile[]; userZip?: string }> = ({ pr
   };
 
   return (
-    <div>
-      <div className="text-center mb-10">
-        <h2 className="text-4xl font-extrabold text-white">Gift Lab</h2>
-        <p className="mt-2 text-lg text-gray-400 max-w-2xl mx-auto">Generate thoughtful gift ideas and custom designs.</p>
+    <div className="max-w-6xl mx-auto">
+      <div className="text-center mb-12">
+        <h2 className="text-5xl font-extrabold text-white tracking-tight">Gift Lab</h2>
+        <p className="mt-3 text-xl text-slate-400 max-w-2xl mx-auto">Thoughtful ideas & custom designs, instantly.</p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Controls and Ideas */}
-        <div className="bg-secondary p-6 rounded-lg shadow-lg space-y-6">
+        <div className="bg-secondary p-8 rounded-[2rem] shadow-2xl border border-tertiary space-y-8 h-full">
           <div>
-            <label htmlFor="profile-select" className="block text-sm font-medium text-gray-400">1. Select a Profile</label>
+            <label htmlFor="profile-select" className={labelClasses}>1. Who is this for?</label>
             <select
               id="profile-select"
               value={selectedProfileId}
               onChange={(e) => setSelectedProfileId(e.target.value)}
-              className="mt-1 block w-full bg-tertiary border-tertiary rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-accent"
+              className={inputClasses}
             >
-              <option value="" disabled>Choose someone</option>
+              <option value="" disabled>Choose someone...</option>
               {profiles.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
           </div>
           <button
             onClick={handleGenerateIdeas}
             disabled={!selectedProfileId || isGeneratingIdeas}
-            className="w-full bg-accent text-white px-6 py-3 rounded-md hover:bg-red-700 disabled:bg-gray-500 font-bold transition-colors shadow-lg"
+            className="w-full bg-accent text-white px-6 py-4 rounded-xl hover:bg-accent-hover disabled:bg-tertiary disabled:text-slate-500 font-bold transition-all shadow-lg flex items-center justify-center gap-2 active:scale-95"
           >
-            {isGeneratingIdeas ? 'Generating Ideas...' : '2. Generate Gift Ideas'}
+            {isGeneratingIdeas ? <><Loader2 size={20} className="animate-spin" /> Brainstorming...</> : <><Sparkles size={20} /> 2. Generate Gift Ideas</>}
           </button>
           
-          {isGeneratingIdeas && <div className="text-center py-4 animate-pulse text-gray-400">Brainstorming...</div>}
-          {ideas && (
-            <div className="prose prose-invert max-w-none bg-primary p-4 rounded-md prose-p:text-gray-300 prose-headings:text-accent prose-strong:text-white">
-              <ReactMarkdown>{ideas}</ReactMarkdown>
-            </div>
-          )}
+          <div className="min-h-[200px] bg-black/20 rounded-2xl border border-white/5 p-6 relative">
+            {isGeneratingIdeas && (
+                <div className="absolute inset-0 flex items-center justify-center bg-secondary/80 backdrop-blur-sm rounded-2xl z-10">
+                    <div className="text-center text-slate-400">
+                        <Loader2 size={32} className="animate-spin mx-auto mb-3 text-accent" />
+                        <p>AI is thinking...</p>
+                    </div>
+                </div>
+            )}
+            
+            {ideas ? (
+              <div className="prose prose-invert max-w-none prose-p:text-slate-300 prose-headings:text-accent prose-strong:text-white animate-fade-in">
+                <ReactMarkdown>{ideas}</ReactMarkdown>
+              </div>
+            ) : (
+                <div className="text-center text-slate-500 py-10 opacity-60">
+                    <Gift size={40} className="mx-auto mb-3" />
+                    <p className="font-medium">Select a profile to start.</p>
+                </div>
+            )}
+          </div>
         </div>
 
         {/* Image Generation */}
-        <div className="bg-secondary p-6 rounded-lg shadow-lg space-y-6">
+        <div className="bg-secondary p-8 rounded-[2rem] shadow-2xl border border-tertiary space-y-8 lg:sticky top-24">
           <div>
-            <label htmlFor="image-prompt" className="block text-sm font-medium text-gray-400">3. Enter Image Prompt</label>
+            <label htmlFor="image-prompt" className={labelClasses}>3. Create Visual Design</label>
             <textarea
               id="image-prompt"
               rows={3}
               value={imagePrompt}
               onChange={e => setImagePrompt(e.target.value)}
-              className="mt-1 block w-full bg-tertiary border-tertiary rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-accent"
-              placeholder="Copy a prompt from the generated ideas or write your own..."
+              className={inputClasses}
+              placeholder="Paste a prompt from the ideas here (e.g., 'A retro poster design of a cat in space')..."
             />
           </div>
           <button
             onClick={handleGenerateImage}
             disabled={!imagePrompt || isGeneratingImage}
-            className="w-full bg-accent text-white px-6 py-3 rounded-md hover:bg-red-700 disabled:bg-gray-500 font-bold transition-colors shadow-lg"
+            className="w-full bg-white text-stone-900 px-6 py-4 rounded-xl hover:bg-slate-200 disabled:bg-tertiary disabled:text-slate-500 font-bold transition-all shadow-lg flex items-center justify-center gap-2 active:scale-95"
           >
-            {isGeneratingImage ? 'Creating Design...' : '4. Generate Print Design'}
+            {isGeneratingImage ? <><Loader2 size={20} className="animate-spin" /> Rendering...</> : <><ImageIcon size={20}/> 4. Generate Design</>}
           </button>
 
-          <div className="aspect-square bg-primary rounded-md flex items-center justify-center overflow-hidden">
+          <div className="aspect-square bg-black/40 rounded-2xl flex items-center justify-center overflow-hidden border border-tertiary/50 relative group">
+             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+            
             {isGeneratingImage ? (
-              <p className="animate-pulse text-gray-400">Generating image...</p>
+                <div className="text-center text-slate-400 z-10">
+                    <Loader2 size={48} className="animate-spin mx-auto mb-4 text-white" />
+                    <p className="font-medium text-white">Creating masterpiece...</p>
+                </div>
             ) : generatedImage ? (
-              <img src={generatedImage} alt="Generated gift design" className="object-contain w-full h-full" />
+              <img src={generatedImage} alt="Generated gift design" className="object-contain w-full h-full animate-fade-in z-10" />
             ) : (
-              <p className="text-gray-500 text-center p-4">Your generated design will appear here.</p>
+              <div className="text-center text-slate-600 p-8 z-10 opacity-60">
+                <ImageIcon size={64} className="mx-auto mb-4" />
+                <p className="text-lg font-semibold">No design yet</p>
+                <p className="text-sm">Enter a prompt above to generate.</p>
+              </div>
             )}
           </div>
-          {generatedImage && (
-            <div className="text-center text-sm text-gray-400">
-                <p>Use this design with your favorite print-on-demand service!</p>
-                <a href="https://www.google.com/search?q=print+on+demand+services" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Find a service</a>
-            </div>
-          )}
         </div>
       </div>
     </div>

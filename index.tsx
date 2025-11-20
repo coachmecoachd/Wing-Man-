@@ -1,7 +1,7 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './index.css';
 
 // --- POLYFILL PROCESS.ENV ---
 // This ensures that if the environment doesn't provide a global process object,
