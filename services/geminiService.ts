@@ -34,6 +34,7 @@ export const getReplySuggestion = async (messages: Message[]): Promise<string> =
         model: 'gemini-2.5-flash',
         contents: prompt,
     });
+    if (!response.text) throw new Error("No response text from Gemini API.");
     return response.text;
   } catch (error) {
     console.error("Error getting reply suggestion:", error);
@@ -65,6 +66,7 @@ export const generateDateIdeas = async (profile: PersonProfile, userZip?: string
             model: 'gemini-2.5-flash',
             contents: prompt,
         });
+        if (!response.text) throw new Error("No response text from Gemini API.");
         return response.text;
     } catch (error) {
         console.error("Error generating date ideas:", error);
@@ -131,6 +133,7 @@ export const generateStructuredDateIdeas = async (
             }
         });
 
+        if (!response.text) throw new Error("No response text from Gemini API.");
         const jsonStr = response.text.trim();
         return JSON.parse(jsonStr) as DateOption[];
     } catch (error) {
@@ -162,6 +165,7 @@ export const generateGiftIdeas = async (profile: PersonProfile, userZip?: string
             model: 'gemini-2.5-flash',
             contents: prompt,
         });
+        if (!response.text) throw new Error("No response text from Gemini API.");
         return response.text;
     } catch (error) {
         console.error("Error generating gift ideas:", error);
@@ -182,8 +186,11 @@ export const generateGiftImage = async (prompt: string): Promise<string> => {
             },
         });
 
+        if (!response.candidates || !response.candidates[0]?.content?.parts) {
+            throw new Error("No candidates in Gemini response.");
+        }
         for (const part of response.candidates[0].content.parts) {
-            if (part.inlineData) {
+            if (part.inlineData && part.inlineData.data) {
                 const base64ImageBytes: string = part.inlineData.data;
                 return `data:image/png;base64,${base64ImageBytes}`;
             }
@@ -241,6 +248,7 @@ export const getDatingAdvice = async (dateType: string, question: string): Promi
             }
         });
 
+        if (!response.text) throw new Error("No response text from Gemini API.");
         const jsonStr = response.text.trim();
         return JSON.parse(jsonStr) as DatingAdviceResponse;
     } catch (error) {
@@ -257,6 +265,7 @@ export const translateText = async (text: string, sourceLang: string, targetLang
             model: 'gemini-2.5-flash',
             contents: prompt,
         });
+        if (!response.text) throw new Error("No response text from Gemini API.");
         return response.text.trim();
     } catch (error) {
         console.error("Error translating text:", error);
