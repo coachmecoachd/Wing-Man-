@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const CACHE_NAME = 'wingman-v2';
+=======
+const CACHE_NAME = 'bruh-v1';
+>>>>>>> 7a3b66c (Update README with correct repo info)
 const URLS_TO_CACHE = [
   './',
   './index.html',

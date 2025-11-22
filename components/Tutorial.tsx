@@ -16,29 +16,49 @@ const Tutorial: React.FC<TutorialProps> = ({ onComplete }) => {
 
   const slides: Slide[] = [
     {
+<<<<<<< HEAD
       title: "Your Wing Man",
+=======
+      title: "Your AI Wingman",
+>>>>>>> 7a3b66c (Update README with correct repo info)
       description: "Welcome! I'm here to help you navigate dating with confidence, creativity, and a little bit of AI magic.",
       icon: <HeartHandshake size={100} className="text-accent drop-shadow-2xl" />,
     },
     {
       title: "Remember Details",
       description: "Create Profiles for the people you meet. I'll remember their likes and hobbies so you can plan better dates.",
+<<<<<<< HEAD
       icon: <UsersRound size={100} className="text-blue-400 drop-shadow-2xl" />,
+=======
+      icon: <UsersRound size={100} className="text-ocean drop-shadow-2xl" />,
+>>>>>>> 7a3b66c (Update README with correct repo info)
     },
     {
       title: "Never Get Stuck",
       description: "Don't know what to reply? Use the Text Helper. I'll suggest charming, witty, or serious responses instantly.",
+<<<<<<< HEAD
       icon: <MessageSquareMore size={100} className="text-green-400 drop-shadow-2xl" />,
+=======
+      icon: <MessageSquareMore size={100} className="text-mint drop-shadow-2xl" />,
+>>>>>>> 7a3b66c (Update README with correct repo info)
     },
     {
       title: "Plan Dates",
       description: "Use the Date Planner and Gift Lab to generate unique ideas tailored specifically to their personality.",
+<<<<<<< HEAD
       icon: <CalendarHeart size={100} className="text-purple-400 drop-shadow-2xl" />,
+=======
+      icon: <CalendarHeart size={100} className="text-violet-500 drop-shadow-2xl" />,
+>>>>>>> 7a3b66c (Update README with correct repo info)
     },
     {
       title: "Expert Guidance",
       description: "From outfit checks to breaking language barriers, I've got the tools you need. Let's get started!",
+<<<<<<< HEAD
       icon: <Sparkles size={100} className="text-yellow-400 drop-shadow-2xl" />,
+=======
+      icon: <Sparkles size={100} className="text-sunshine drop-shadow-2xl" />,
+>>>>>>> 7a3b66c (Update README with correct repo info)
     },
   ];
 
@@ -53,7 +73,11 @@ const Tutorial: React.FC<TutorialProps> = ({ onComplete }) => {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-primary/90 backdrop-blur-xl animate-fade-in">
       <div 
+<<<<<<< HEAD
         className="bg-secondary border border-tertiary w-full max-w-lg rounded-[2rem] shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]"
+=======
+        className="bg-secondary border border-gray-200 w-full max-w-lg rounded-[2rem] shadow-2xl overflow-hidden flex flex-col relative min-h-[600px]"
+>>>>>>> 7a3b66c (Update README with correct repo info)
       >
         {/* Progress Bar */}
         <div className="absolute top-0 left-0 w-full h-2 bg-tertiary">
@@ -67,7 +91,11 @@ const Tutorial: React.FC<TutorialProps> = ({ onComplete }) => {
         <div className="absolute top-6 right-6 z-10">
           <button 
             onClick={onComplete}
+<<<<<<< HEAD
             className="text-slate-500 hover:text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-tertiary transition-colors"
+=======
+            className="text-text-secondary hover:text-text-primary text-sm font-semibold px-4 py-2 rounded-full hover:bg-tertiary transition-colors"
+>>>>>>> 7a3b66c (Update README with correct repo info)
           >
             Skip
           </button>
@@ -77,16 +105,27 @@ const Tutorial: React.FC<TutorialProps> = ({ onComplete }) => {
         <div className="flex-grow flex flex-col items-center justify-center p-10 text-center space-y-10 select-none">
             <div className="relative">
                 <div className="absolute inset-0 bg-accent/20 blur-[60px] rounded-full"></div>
+<<<<<<< HEAD
                 <div className="relative bg-tertiary/30 p-10 rounded-full border border-tertiary/50 shadow-2xl transform transition-all duration-500 hover:scale-105">
+=======
+                <div className="relative bg-tertiary p-10 rounded-full border border-gray-200 shadow-2xl transform transition-all duration-500 hover:scale-105">
+>>>>>>> 7a3b66c (Update README with correct repo info)
                     {slides[currentSlide].icon}
                 </div>
             </div>
             
             <div className="space-y-4 animate-slide-up">
+<<<<<<< HEAD
                 <h2 className="text-4xl font-extrabold text-white tracking-tight">
                     {slides[currentSlide].title}
                 </h2>
                 <p className="text-slate-400 text-lg leading-relaxed max-w-xs mx-auto">
+=======
+                <h2 className="text-4xl font-extrabold text-text-primary tracking-tight">
+                    {slides[currentSlide].title}
+                </h2>
+                <p className="text-text-secondary text-lg leading-relaxed max-w-xs mx-auto">
+>>>>>>> 7a3b66c (Update README with correct repo info)
                     {slides[currentSlide].description}
                 </p>
             </div>

@@ -1,4 +1,8 @@
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7a3b66c (Update README with correct repo info)
 export type View = 'dashboard' | 'profiles' | 'texter' | 'planner' | 'gifts' | 'advice' | 'interpreter' | 'settings';
 
 export interface UserAccount {
@@ -53,5 +57,18 @@ export interface DateOption {
   title: string;
   location: string;
   description: string;
+<<<<<<< HEAD
   reasoning: string;
+=======
+  reasoning:string;
+}
+
+export interface GiftIdea {
+  title: string;
+  category: string;
+  description: string;
+  reasoning: string;
+  imagePrompt?: string;
+  purchaseUrl?: string;
+>>>>>>> 7a3b66c (Update README with correct repo info)
 }

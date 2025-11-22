@@ -1,8 +1,8 @@
 
-# Wing Man 💘 AI Dating Assistant
+# BRUH 💘 Your AI Wingman
 
 <div align="center">
-  <img src="./assets/icon-512x512.svg" alt="Wing Man Logo" width="150">
+    <img src="./assets/icon-512x512.svg" alt="BRUH Logo" width="150">
 </div>
 
 <p align="center">
@@ -17,7 +17,7 @@
 
 ---
 
-**Wing Man** is an AI-powered dating assistant designed to help you navigate the complexities of dating with confidence. From crafting the perfect reply to planning a memorable date, Wing Man has your back. This application is a powerful demonstration of the capabilities of the Google Gemini API.
+**BRUH** is an AI-powered dating assistant designed to help you navigate the complexities of dating with confidence. From crafting the perfect reply to planning a memorable date, BRUH has your back. This application is a powerful demonstration of the capabilities of the Google Gemini API.
 
 ## ✨ Features
 
@@ -39,8 +39,8 @@
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/coachmecochd/Wing-Man-.git
-    cd Wing-Man-
+    git clone https://github.com/coachmecoachd/BRUH-App.git
+    cd BRUH-App
     ```
 
 2.  **Install dependencies:**
@@ -54,7 +54,7 @@ You need a Google Gemini API key for the AI features to work.
 
 1.  **Get a Key:** Visit [Google AI Studio](https://aistudio.google.com/app/apikey) and create a free API key.
 2.  **Create Config File:**
-    *   Create a new file in the root folder named `.env`
+    *   Create a new file named `.env` in the root of your project folder.
     *   Open it and add your key:
         ```
         API_KEY=AIzaSy...YourActualKeyHere
@@ -86,7 +86,7 @@ You need a Google Gemini API key for the AI features to work.
 
 ## 🛠️ How It Works
 
-Wing Man is a single-page application (SPA) built with:
+BRUH is a single-page application (SPA) built with:
 *   **Vite**: For fast building and development.
 *   **React**: For the user interface.
 *   **@google/genai**: To communicate with Google's Gemini models.
@@ -98,4 +98,8 @@ Your privacy is paramount. All data (profiles, chats, etc.) is stored locally on
 
 ## 📄 License
 
+<<<<<<< HEAD
 This project is licensed under the MIT License.
+=======
+This project is licensed under the MIT License.
+>>>>>>> 7a3b66c (Update README with correct repo info)

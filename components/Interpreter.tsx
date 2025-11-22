@@ -113,16 +113,28 @@ const Interpreter: React.FC = () => {
         setTranslatedText(inputText);
     };
 
+<<<<<<< HEAD
     const selectClasses = "w-full bg-tertiary border-none rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-accent/50 text-white font-bold cursor-pointer";
+=======
+    const selectClasses = "w-full bg-tertiary border border-gray-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-accent/50 text-text-primary font-bold cursor-pointer";
+>>>>>>> 7a3b66c (Update README with correct repo info)
 
     return (
         <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
+<<<<<<< HEAD
                 <h2 className="text-5xl font-extrabold text-white tracking-tight">Travel Interpreter</h2>
                 <p className="mt-3 text-xl text-slate-400">Break barriers. Connect globally.</p>
             </div>
             
             <div className="bg-secondary p-8 rounded-[2rem] shadow-2xl border border-tertiary">
+=======
+                <h2 className="text-5xl font-extrabold text-text-primary tracking-tight">Travel Interpreter</h2>
+                <p className="mt-3 text-xl text-text-secondary">Break barriers. Connect globally.</p>
+            </div>
+            
+            <div className="bg-secondary p-8 rounded-[2rem] shadow-2xl border border-gray-200">
+>>>>>>> 7a3b66c (Update README with correct repo info)
                 <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
                      <div className="w-full md:w-1/3">
                         <select value={sourceLang} onChange={e => setSourceLang(e.target.value)} className={selectClasses}>
@@ -131,7 +143,11 @@ const Interpreter: React.FC = () => {
                      </div>
                      <button
                         onClick={handleSwapLanguages}
+<<<<<<< HEAD
                         className="p-3 bg-stone-800 rounded-full hover:bg-accent transition-all text-slate-300 hover:text-white shadow-lg"
+=======
+                        className="p-3 bg-tertiary rounded-full hover:bg-accent transition-all text-text-secondary hover:text-white shadow-lg border border-gray-200"
+>>>>>>> 7a3b66c (Update README with correct repo info)
                         aria-label="Swap languages"
                     >
                         <ArrowRightLeft size={20} className="md:rotate-0 rotate-90" />
@@ -150,14 +166,22 @@ const Interpreter: React.FC = () => {
                             value={inputText}
                             onChange={e => setInputText(e.target.value)}
                             rows={8}
+<<<<<<< HEAD
                             className="w-full h-full bg-tertiary/30 border border-stone-700 rounded-2xl p-5 focus:outline-none focus:ring-2 focus:ring-accent/50 text-white placeholder-slate-500 resize-none text-lg leading-relaxed"
+=======
+                            className="w-full h-full bg-tertiary border border-gray-200 rounded-2xl p-5 focus:outline-none focus:ring-2 focus:ring-accent/50 text-text-primary placeholder-text-secondary resize-none text-lg leading-relaxed"
+>>>>>>> 7a3b66c (Update README with correct repo info)
                             placeholder="Enter text..."
                         />
                     </div>
 
                     {/* Output */}
                     <div className="relative">
+<<<<<<< HEAD
                          <div className="w-full h-full bg-black/20 border border-stone-700 rounded-2xl p-5 min-h-[14rem] text-slate-200 text-lg leading-relaxed flex flex-col">
+=======
+                         <div className="w-full h-full bg-tertiary border border-gray-200 rounded-2xl p-5 min-h-[14rem] text-text-primary text-lg leading-relaxed flex flex-col">
+>>>>>>> 7a3b66c (Update README with correct repo info)
                             {isTranslating ? (
                                 <div className="flex-grow flex items-center justify-center text-accent gap-2">
                                     <Loader2 className="animate-spin" size={24} /> Translating...
@@ -165,14 +189,22 @@ const Interpreter: React.FC = () => {
                             ) : translatedText ? (
                                 <div className="flex-grow">{translatedText}</div>
                             ) : (
+<<<<<<< HEAD
                                 <span className="text-slate-600 italic">Translation will appear here...</span>
+=======
+                                <span className="text-text-secondary italic">Translation will appear here...</span>
+>>>>>>> 7a3b66c (Update README with correct repo info)
                             )}
                             
                             {translatedText && !isTranslating && (
                                 <button 
                                     onClick={handlePlayAudio}
                                     disabled={isGeneratingAudio}
+<<<<<<< HEAD
                                     className="absolute bottom-4 right-4 bg-white text-stone-900 p-3 rounded-full hover:bg-slate-200 disabled:bg-stone-700 transition-all shadow-lg"
+=======
+                                    className="absolute bottom-4 right-4 bg-text-primary text-secondary p-3 rounded-full hover:bg-gray-700 disabled:bg-gray-300 transition-all shadow-lg"
+>>>>>>> 7a3b66c (Update README with correct repo info)
                                     aria-label="Play audio"
                                 >
                                     {isGeneratingAudio 
@@ -189,12 +221,20 @@ const Interpreter: React.FC = () => {
                     <button
                         onClick={handleTranslate}
                         disabled={isTranslating || !inputText.trim()}
+<<<<<<< HEAD
                         className="w-full bg-accent text-white py-4 rounded-xl hover:bg-accent-hover disabled:bg-tertiary disabled:text-slate-500 font-bold text-lg shadow-lg shadow-accent/20 transition-all transform active:scale-[0.98]"
+=======
+                        className="w-full bg-accent text-white py-4 rounded-xl hover:bg-accent-hover disabled:bg-tertiary disabled:text-text-secondary font-bold text-lg shadow-lg shadow-accent/20 transition-all transform active:scale-[0.98]"
+>>>>>>> 7a3b66c (Update README with correct repo info)
                     >
                         {isTranslating ? 'Translating...' : 'Translate Text'}
                     </button>
                 </div>
+<<<<<<< HEAD
                 {error && <p className="text-center text-red-400 mt-4 bg-red-900/20 p-2 rounded-lg">{error}</p>}
+=======
+                {error && <p className="text-center text-red-500 mt-4 bg-red-500/10 p-2 rounded-lg">{error}</p>}
+>>>>>>> 7a3b66c (Update README with correct repo info)
             </div>
         </div>
     );

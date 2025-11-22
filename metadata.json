@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
   "name": "Wing Man",
   "description": "An AI-powered dating assistant to help you with date ideas, conversation starters, and thoughtful replies. Wing Man is your personal guide to navigating the complexities of dating with confidence.",
+=======
+  "name": "BRUH",
+  "description": "BRUH — Your AI Wingman. An AI-powered assistant for date ideas, conversation starters, and thoughtful replies. BRUH is your personal guide to navigating dating with confidence.",
+>>>>>>> 7a3b66c (Update README with correct repo info)
   "requestFramePermissions": []
 }

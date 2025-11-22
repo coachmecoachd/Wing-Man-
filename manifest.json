@@ -1,5 +1,6 @@
 
 {
+<<<<<<< HEAD
   "name": "Wing Man",
   "short_name": "Wing Man",
   "description": "An AI-powered dating assistant to help you with date ideas, conversation starters, and thoughtful replies. Wing Man is your personal guide to navigating the complexities of dating with confidence.",
@@ -7,6 +8,15 @@
   "display": "standalone",
   "background_color": "#1a1a2e",
   "theme_color": "#1a1a2e",
+=======
+  "name": "BRUH",
+  "short_name": "BRUH",
+  "description": "BRUH — Your AI Wingman. An AI-powered assistant for date ideas, conversation starters, and thoughtful replies. BRUH is your personal guide to navigating dating with confidence.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fdf8f0",
+  "theme_color": "#fdf8f0",
+>>>>>>> 7a3b66c (Update README with correct repo info)
   "icons": [
     {
       "src": "./assets/icon-192x192.svg",
