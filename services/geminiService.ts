@@ -1,12 +1,12 @@
 
-<<<<<<< HEAD
+// ...existing code...
 import { GoogleGenAI, Modality, Type } from "@google/genai";
 import { PersonProfile, Message, DatingAdviceResponse, DateOption } from '../types';
-=======
+// ...existing code...
 
 import { GoogleGenAI, Modality, Type } from "@google/genai";
 import { PersonProfile, Message, DatingAdviceResponse, DateOption, GiftIdea } from '../types';
->>>>>>> 7a3b66c (Update README with correct repo info)
+// ...existing code...
 
 let ai: GoogleGenAI | null = null;
 
@@ -118,8 +118,8 @@ export const generateStructuredDateIdeas = async (
         ${profileContext}
         
         Instructions:
-        - You act as a local expert. Suggest *specific* real venues, parks, restaurants, or activity centers known in or near ${zipCode}.
-        - If the specific zip code is small, look at the immediate surrounding area.
+        import { GoogleGenAI, Modality, Type } from "@google/genai";
+        import { PersonProfile, Message, DatingAdviceResponse, DateOption, GiftIdea } from '../types';
         import { GiftIdea } from '../types';
         - Ensure the ideas fit the time of day (e.g., don't suggest a breakfast place for a 8 PM date).
         - Provide a diverse range of options (e.g. one active, one dining, one cultural/relaxed).

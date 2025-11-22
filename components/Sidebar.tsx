@@ -57,19 +57,19 @@ const NavLink: React.FC<{
       className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 group ${
         currentView === viewName
           ? 'bg-accent text-white shadow-md shadow-accent/20'
-<<<<<<< HEAD
+// ...existing code...
           : 'text-slate-400 hover:bg-tertiary hover:text-slate-100'
       } ${isCollapsed ? 'justify-center' : ''}`}
       title={isCollapsed ? label : undefined}
     >
       <span className={`${currentView === viewName ? 'text-white' : 'text-slate-400 group-hover:text-white'} transition-colors flex-shrink-0`}>
-=======
+// ...existing code...
           : 'text-text-secondary hover:bg-tertiary hover:text-text-primary'
       } ${isCollapsed ? 'justify-center' : ''}`}
       title={isCollapsed ? label : undefined}
     >
       <span className={`${currentView === viewName ? 'text-white' : 'text-text-secondary group-hover:text-text-primary'} transition-colors flex-shrink-0`}>
->>>>>>> 7a3b66c (Update README with correct repo info)
+// ...existing code...
         {icon}
       </span>
       {!isCollapsed && (
