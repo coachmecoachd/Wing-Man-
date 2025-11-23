@@ -1,12 +1,5 @@
-
-// ...existing code...
-import { GoogleGenAI, Modality, Type } from "@google/genai";
-import { PersonProfile, Message, DatingAdviceResponse, DateOption } from '../types';
-// ...existing code...
-
 import { GoogleGenAI, Modality, Type } from "@google/genai";
 import { PersonProfile, Message, DatingAdviceResponse, DateOption, GiftIdea } from '../types';
-// ...existing code...
 
 let ai: GoogleGenAI | null = null;
 
@@ -26,11 +19,7 @@ export const getReplySuggestion = async (messages: Message[]): Promise<string> =
     const gemini = getAiClient();
     const conversationHistory = messages.map(m => `${m.sender === 'me' ? 'Me' : 'Them'}: ${m.text}`).join('\n');
     const prompt = `
-<<<<<<< HEAD
-      You are Wing Man, a dating assistant AI. Your goal is to help users craft engaging, respectful, and charming replies in their dating conversations.
-=======
       You are BRUH, an AI Wingman. Your goal is to help users craft engaging, respectful, and charming replies in their dating conversations.
->>>>>>> 7a3b66c (Update README with correct repo info)
       Analyze the following conversation and suggest a great reply for "Me". 
       Provide 2-3 distinct options, each with a brief explanation of the vibe (e.g., "Playful & Witty", "Direct & Confident", "Curious & Engaging").
       Format the response in Markdown.
@@ -44,11 +33,7 @@ export const getReplySuggestion = async (messages: Message[]): Promise<string> =
         model: 'gemini-2.5-flash',
         contents: prompt,
     });
-<<<<<<< HEAD
-    return response.text;
-=======
     return response.text ?? "";
->>>>>>> 7a3b66c (Update README with correct repo info)
   } catch (error) {
     console.error("Error getting reply suggestion:", error);
     throw new Error("Failed to get reply suggestion from AI.");
@@ -79,11 +64,7 @@ export const generateDateIdeas = async (profile: PersonProfile, userZip?: string
             model: 'gemini-2.5-flash',
             contents: prompt,
         });
-<<<<<<< HEAD
-        return response.text;
-=======
         return response.text ?? "";
->>>>>>> 7a3b66c (Update README with correct repo info)
     } catch (error) {
         console.error("Error generating date ideas:", error);
         throw new Error("Failed to generate date ideas.");
@@ -118,9 +99,6 @@ export const generateStructuredDateIdeas = async (
         ${profileContext}
         
         Instructions:
-        import { GoogleGenAI, Modality, Type } from "@google/genai";
-        import { PersonProfile, Message, DatingAdviceResponse, DateOption, GiftIdea } from '../types';
-        import { GiftIdea } from '../types';
         - Ensure the ideas fit the time of day (e.g., don't suggest a breakfast place for a 8 PM date).
         - Provide a diverse range of options (e.g. one active, one dining, one cultural/relaxed).
         
@@ -150,11 +128,7 @@ export const generateStructuredDateIdeas = async (
             }
         });
 
-<<<<<<< HEAD
-        const jsonStr = response.text.trim();
-=======
         const jsonStr = response.text?.trim() ?? "";
->>>>>>> 7a3b66c (Update README with correct repo info)
         return JSON.parse(jsonStr) as DateOption[];
     } catch (error) {
         console.error("Error generating structured date ideas:", error);
@@ -162,22 +136,12 @@ export const generateStructuredDateIdeas = async (
     }
 }
 
-<<<<<<< HEAD
-export const generateGiftIdeas = async (profile: PersonProfile, userZip?: string): Promise<string> => {
-=======
 export const generateGiftIdeas = async (profile: PersonProfile, userZip?: string): Promise<GiftIdea[]> => {
->>>>>>> 7a3b66c (Update README with correct repo info)
     try {
         const gemini = getAiClient();
         const locationContext = userZip ? `The user is located in or near zip code ${userZip}. If suggesting experiences or local shops, consider this location.` : '';
 
         const prompt = `
-<<<<<<< HEAD
-        You are a thoughtful gift-giving assistant. Based on the provided profile, brainstorm 3-5 unique and personalized gift ideas. For each idea, explain why it would be a great gift for this person.
-        ${locationContext}
-
-        Also, for one of the ideas that could be a custom-printed item (like a mug, t-shirt, or poster), provide a detailed, descriptive prompt that could be used with an AI image generator to create a cool design.
-=======
         You are a thoughtful and creative gift-giving assistant. Based on the provided profile, brainstorm 4 unique and personalized gift ideas.
         
         Instructions:
@@ -188,7 +152,6 @@ export const generateGiftIdeas = async (profile: PersonProfile, userZip?: string
         - The JSON schema for each object should be: { "title": string, "category": string, "description": string, "reasoning": string, "purchaseUrl"?: string, "imagePrompt"?: string }
 
         ${locationContext}
->>>>>>> 7a3b66c (Update README with correct repo info)
         
         **Profile:**
         - **Name:** ${profile.name}
@@ -196,15 +159,6 @@ export const generateGiftIdeas = async (profile: PersonProfile, userZip?: string
         - **Dislikes:** ${profile.dislikes}
         - **Hobbies:** ${profile.hobbies}
 
-<<<<<<< HEAD
-        Format your response in Markdown. The image prompt should be clearly labeled and enclosed in a code block.
-        `;
-        const response = await gemini.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-        });
-        return response.text;
-=======
         Return a JSON array of 4 objects.
         `;
         
@@ -227,7 +181,6 @@ export const generateGiftIdeas = async (profile: PersonProfile, userZip?: string
         jsonStr = jsonStr.substring(startIndex, endIndex + 1);
 
         return JSON.parse(jsonStr) as GiftIdea[];
->>>>>>> 7a3b66c (Update README with correct repo info)
     } catch (error) {
         console.error("Error generating gift ideas:", error);
         throw new Error("Failed to generate gift ideas.");
@@ -247,27 +200,6 @@ export const generateGiftImage = async (prompt: string): Promise<string> => {
             },
         });
 
-<<<<<<< HEAD
-        for (const part of response.candidates[0].content.parts) {
-            if (part.inlineData) {
-                const base64ImageBytes: string = part.inlineData.data;
-                return `data:image/png;base64,${base64ImageBytes}`;
-            }
-        }
-        throw new Error("No image was generated.");
-
-    } catch (error) {
-        console.error("Error generating gift image:", error);
-        throw new Error("Failed to generate image.");
-    }
-};
-
-export const getDatingAdvice = async (dateType: string, question: string): Promise<DatingAdviceResponse> => {
-    try {
-        const gemini = getAiClient();
-        const prompt = `
-        You are Wing Man, an AI dating coach. Provide advice for a "${dateType}" date.
-=======
         if (response.candidates && response.candidates.length > 0 && response.candidates[0].content?.parts) {
             for (const part of response.candidates[0].content.parts) {
                 if (part.inlineData) {
@@ -282,9 +214,13 @@ export const getDatingAdvice = async (dateType: string, question: string): Promi
         console.error("Error generating gift image:", error);
         throw new Error("Failed to generate image.");
     }
+}
+
+export const getDatingAdvice = async (dateType: string, question: string): Promise<DatingAdviceResponse> => {
+    try {
+        const gemini = getAiClient();
         const prompt = `
         You are BRUH, an AI dating coach. Provide advice for a "${dateType}" date.
->>>>>>> 7a3b66c (Update README with correct repo info)
         The user has a specific question: "${question}".
         
         Please provide a comprehensive response in the requested JSON format. The vibe should be confident, friendly, and supportive.
@@ -325,17 +261,12 @@ export const getDatingAdvice = async (dateType: string, question: string): Promi
             }
         });
 
-<<<<<<< HEAD
-        const jsonStr = response.text.trim();
-=======
         const jsonStr = response.text?.trim() ?? "";
->>>>>>> 7a3b66c (Update README with correct repo info)
         return JSON.parse(jsonStr) as DatingAdviceResponse;
     } catch (error) {
         console.error("Error getting dating advice:", error);
         throw new Error("Failed to get dating advice. The AI might be having a moment.");
     }
-};
 
 export const translateText = async (text: string, sourceLang: string, targetLang: string): Promise<string> => {
     try {
@@ -345,16 +276,12 @@ export const translateText = async (text: string, sourceLang: string, targetLang
             model: 'gemini-2.5-flash',
             contents: prompt,
         });
-<<<<<<< HEAD
-        return response.text.trim();
-=======
         return response.text?.trim() ?? "";
->>>>>>> 7a3b66c (Update README with correct repo info)
     } catch (error) {
         console.error("Error translating text:", error);
         throw new Error("Failed to translate text.");
     }
-};
+}
 
 export const generateSpeech = async (text: string): Promise<string> => {
     try {
@@ -380,8 +307,4 @@ export const generateSpeech = async (text: string): Promise<string> => {
         console.error("Error generating speech:", error);
         throw new Error("Failed to generate speech.");
     }
-<<<<<<< HEAD
-};
-=======
 }
->>>>>>> 7a3b66c (Update README with correct repo info)

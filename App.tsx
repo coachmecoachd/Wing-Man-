@@ -21,25 +21,15 @@ const App: React.FC = () => {
   const [planningProfile, setPlanningProfile] = useState<PersonProfile | null>(null);
 
   // Data stored with static keys
-<<<<<<< HEAD
   const [profiles, setProfiles] = useLocalStorage<PersonProfile[]>('wingman-profiles', []);
   const [dates, setDates] = useLocalStorage<PlannedDate[]>('wingman-dates', []);
   const [userAccount, setUserAccount] = useLocalStorage<UserAccount>('wingman-account', {
-=======
-  const [profiles, setProfiles] = useLocalStorage<PersonProfile[]>('bruh-profiles', []);
-  const [dates, setDates] = useLocalStorage<PlannedDate[]>('bruh-dates', []);
-  const [userAccount, setUserAccount] = useLocalStorage<UserAccount>('bruh-account', {
->>>>>>> 7a3b66c (Update README with correct repo info)
       username: 'User',
       displayName: 'User',
       avatarUrl: '',
       zipCode: ''
   });
-<<<<<<< HEAD
   const [hasSeenTutorial, setHasSeenTutorial] = useLocalStorage<boolean>('wingman-tutorial-seen', false);
-=======
-  const [hasSeenTutorial, setHasSeenTutorial] = useLocalStorage<boolean>('bruh-tutorial-seen', false);
->>>>>>> 7a3b66c (Update README with correct repo info)
 
   const handlePlanDate = (profile: PersonProfile) => {
       setPlanningProfile(profile);
@@ -79,11 +69,7 @@ const App: React.FC = () => {
   };
 
   return (
-<<<<<<< HEAD
     <div className="h-screen w-full bg-primary font-sans flex text-slate-300 overflow-hidden">
-=======
-    <div className="h-screen w-full bg-primary font-sans flex text-text-primary overflow-hidden">
->>>>>>> 7a3b66c (Update README with correct repo info)
       {!hasSeenTutorial && <Tutorial onComplete={() => setHasSeenTutorial(true)} />}
       
       <Sidebar
@@ -103,15 +89,9 @@ const App: React.FC = () => {
             <div className="max-w-7xl mx-auto">
                 {renderView()}
             </div>
-<<<<<<< HEAD
              <footer className="text-center py-8 mt-8 border-t border-tertiary/30">
               <p className="text-sm text-slate-600">
                   Wing Man &copy; {new Date().getFullYear()}
-=======
-             <footer className="text-center py-8 mt-8 border-t border-gray-200">
-              <p className="text-sm text-text-secondary">
-                  BRUH &copy; {new Date().getFullYear()}
->>>>>>> 7a3b66c (Update README with correct repo info)
               </p>
             </footer>
         </main>
